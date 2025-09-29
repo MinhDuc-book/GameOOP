@@ -1,6 +1,8 @@
 package game.MAIN;
 
 import javax.swing.*;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -18,6 +20,12 @@ public class GamePanel extends JPanel {
         Timer gameTimer;
         final int MOVE_STEP = 6;
 
+        private LinkedList<Brick> bricks;
+        int brick_rows = 5;
+        int brick_cols = 8;
+        int brick_gap = 4;
+        int brick_h = 24;
+        int brick_w;
 
 
     public GamePanel() {
@@ -25,8 +33,28 @@ public class GamePanel extends JPanel {
             this.setBackground(Color.BLACK);
             this.setDoubleBuffered(true); // tăng hiệu suất vẽ
 
-            player = new Player(100, SCREEN_HEIGHT-200, 100,30, Color.RED);
+            player = new Player(100, SCREEN_HEIGHT-200, 100,30, Color.GREEN);
 
+            // vẽ hàng loạt các ô gạch
+            brick_w = (SCREEN_WIDTH - (brick_cols + 1) * brick_gap) / brick_cols;
+            bricks = new LinkedList<>();
+            for (int r = 0; r < brick_rows; r++) {
+                for (int c = 0; c < brick_cols; c++) {
+                    int x = brick_gap + c * (brick_w + brick_gap);
+                    int y = 40 + r * (brick_h + brick_gap);
+                    Color col;
+                    if (r % 3 == 0) col = Color.RED;
+                    else if (r % 3 == 1) col = Color.ORANGE;
+                    else col = Color.YELLOW;
+                    bricks.add(new Brick(x, y, brick_w, brick_h, col));
+                }
+            }
+
+            for (Brick b : bricks) {
+                if (b.getColor() == Color.RED) b.countColid = 1;
+                else if (b.getColor() == Color.ORANGE) b.countColid = 2;
+                // cái còn lại màu vàng thì tặng cho 1 hiệu ứng nào đó (để sau)
+            }
 
             this.setFocusable(true);
             this.addKeyListener(new KeyAdapter() {
@@ -41,7 +69,7 @@ public class GamePanel extends JPanel {
                 }
             });
 
-            gameTimer = new Timer(16, ev -> {
+            gameTimer = new Timer(12, ev -> {
                 int dx = 0;
                 if (leftPressed) dx -= MOVE_STEP;
                 if (rightPressed) dx += MOVE_STEP;
@@ -53,10 +81,26 @@ public class GamePanel extends JPanel {
             requestFocusInWindow();
         }
 
+        public boolean hitBrick(Rectangle rect) {
+            Iterator<Brick> it = bricks.iterator();
+            while (it.hasNext()) {
+                Brick b = it.next();
+                if (b.getBounds().intersects(rect)) {
+                    it.remove();
+                    return true;
+                }
+            }
+            return false;
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             player.draw(g);
+
+            for (Brick b : bricks) {
+                b.draw(g);
+            }
         }
 
 }
