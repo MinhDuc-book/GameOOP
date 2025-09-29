@@ -8,7 +8,7 @@ import game.MAIN.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame window = new JFrame("Nguyen Minh Duc");
+        JFrame window = new JFrame("Arkanoid of big 4");
 
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLocation(300,100);
