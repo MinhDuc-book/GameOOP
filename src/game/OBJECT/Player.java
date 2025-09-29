@@ -5,7 +5,7 @@ import java.awt.*;
 public class Player {
     private int x, y, w, h;
     private Color color;
-    public int speed = 5;
+    public int speed = 7;
 
     public Player(int x, int y, int w, int h, Color color) {
         this.x = x;
