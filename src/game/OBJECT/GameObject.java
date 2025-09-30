@@ -1,12 +1,11 @@
 import java.awt.*;
 
-public class GameObject {
-   private int x;
-    private int y;
-    private int width;
-    private int height;
-    private Color color;
-
+public abstract class GameObject {
+    protected int x;
+    protected int y;
+    protected int width;
+    protected int height;
+    protected Color color;
 
     public GameObject(int x, int y, int width, int height, Color color) {
         this.x = x;
@@ -15,30 +14,38 @@ public class GameObject {
         this.height = height;
         this.color = color;
     }
-    public int getX () {
-        return x;
-    }
-    public int getY () {
-        return y;
-    }
 
     public GameObject(GameObject a) {
-        /**
-         * sao chép đối tượng a.
-         */
         this.x = a.x;
         this.y = a.y;
         this.width = a.width;
         this.height = a.height;
-
+        this.color = a.color;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    public  int getWidth() {
+        return width;
+    }
+    public  int getHeight() {
+        return height;
+    }
+
     /**
-     * tô màu cho vật thể
-     * @param g là cây bút để vẽ.
+     * Phương thức trừu tượng để cập nhật trạng thái đối tượng.
+     * Các lớp con phải tự định nghĩa.
      */
-    public void render(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
-    }
-}
+    public abstract void update();
 
+    /**
+     * Phương thức trừu tượng để vẽ đối tượng.
+     * Các lớp con phải tự định nghĩa.
+     */
+    public abstract void render(Graphics g);
+}
