@@ -1,40 +1,63 @@
-package game.OBJECT;
-
 import java.awt.*;
 
-public class Brick {
-    private int x, y, w, h;
-    private Color color;
-    private boolean destroyed = false;
-    public int countColid;
+public class Brick extends GameObject {
+    private boolean Destroyed = false;
+    protected int Hitpoints;
+    protected Color Type;
 
-    public Brick (int x, int y, int w, int h, Color color) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.color = color;
+    /**
+     * tạo brick.
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param color
+     */
+    public Brick(int x, int y, int width, int height, Color color) {
+        super(x, y, width, height, color);
+        if (color == Color.RED) {
+            Hitpoints = 1;
+        }
+        if (color == Color.GREEN) {
+            Hitpoints = 2;
+        }
+        if (color == Color.BLUE) {
+            Hitpoints = 3;
+        }
+    }
+    /**
+     * lấy màu của brick.
+     * @return mùa của loại brick.
+     */
+    public Color getColor() {
+        return Type;
+    }
+    /**
+     * phá vỡ brick.
+     */
+    public void destroyed() {
+        this.Destroyed = true;
+    }
+    /**
+     * kiểm tra xem brick bị vỡ hay chưa.
+     * @return bị vỡ hay chưa.
+     */
+    public boolean isDestroyed() {
+        return this.Destroyed;
     }
 
     public void draw(Graphics g) {
-        if (destroyed) return;
-        g.setColor(color);
-        g.fillRect(x,y,w,h);
+        if (!Destroyed) {
+            super.render(g);
+        }
     }
 
-    public Color getColor() {
-        return this.color;
-    }
-
-    public boolean isDestroyed() {
-        return destroyed;
-    }
-
-    public Rectangle getBounds() {
-        return new Rectangle(x, y,w, h);
-    }
-
-    public void setDestroyed() {
-        destroyed = true;
+    public void hit() {
+        if (Hitpoints > 0) {
+            Hitpoints--;
+            if (Hitpoints == 0) {
+                destroyed();
+            }
+        }
     }
 }
