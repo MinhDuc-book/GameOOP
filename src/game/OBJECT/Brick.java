@@ -2,11 +2,14 @@ package game.OBJECT;
 
 import java.awt.*;
 
-public class Brick {
+public class Brick extends GameObject {
     private int x, y, w, h;
     private Color color;
     private boolean destroyed = false;
+    private boolean isStrong;
+
     public int countColid;
+
 
     public Brick (int x, int y, int w, int h, Color color) {
         this.x = x;
@@ -37,4 +40,6 @@ public class Brick {
     public void setDestroyed() {
         destroyed = true;
     }
+
+    public int getCountColid() {return this.countColid;}
 }

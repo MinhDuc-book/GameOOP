@@ -1,11 +1,11 @@
 package game.OBJECT;
 
 import java.awt.*;
+import game.OBJECT.*;
 
-public class Player {
-    private int x, y, w, h;
-    private Color color;
+public class Player extends MovableObject  {
     public int speed = 7;
+    public int lifeCount = 3;
 
     public Player(int x, int y, int w, int h, Color color) {
         this.x = x;
@@ -15,16 +15,8 @@ public class Player {
         this.color = color;
     }
 
-    public void move(int dx, int dy, int SCREEN_WIDTH) {
-        //dx, dy = speed
-        x += dx;
-        y += dy;
-        if (x < 0) x = 0;
-        if (x > SCREEN_WIDTH - w) x = SCREEN_WIDTH - w;
+    public void applyPower() {
+
     }
 
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, w, h);
-    }
 }
