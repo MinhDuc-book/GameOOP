@@ -8,19 +8,18 @@ import game.MAIN.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame window = new JFrame("Nguyen Minh Duc");
-
+        JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setLocation(300,100);
         window.setResizable(false);
+        window.setTitle("Arkanoid");
 
-        GamePanel panel = new GamePanel();
-        window.add(panel);
-
+        GamePanel gamePanel = new GamePanel();
+        window.add(gamePanel);
         window.pack();
+
+        window.setLocation(300,100);
         window.setVisible(true);
 
-        // đảm bảo panel nhận focus để KeyListener hoạt động
-        panel.requestFocusInWindow();
+        gamePanel.startGameThread();
     }
 }
