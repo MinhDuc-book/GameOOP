@@ -1,8 +1,14 @@
 package game.ENTITY;
 
+import game.MAIN.GamePanel;
+
 public class Ball extends MovableObject {
-    private int speed = 2;
-    private int dx, dy;
+    GamePanel gp;
+    Player player;
+    Brick[] bricks;
+
+    public int diameter = 20;
+    int speedX, speedY;
 
     public boolean isActive;
 

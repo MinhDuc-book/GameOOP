@@ -95,6 +95,7 @@ public class Player extends MovableObject {
             case "bigMode":
                 image = playerImage;
                 this.w = 200;
+                this.h = 50;
                 break;
         }
         g2.drawImage(image, x, y, w, h, null);

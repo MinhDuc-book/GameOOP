@@ -3,6 +3,7 @@ package game.MAIN;
 import javax.swing.*;
 import java.awt.*;
 
+import game.BACKGROUND.BGManager;
 import game.ENTITY.*;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -11,6 +12,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     //FPS
     int FPS = 60;
+
+    BGManager bgManager = new BGManager(this);
+    Brick brick = new Brick(this);
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
@@ -67,7 +71,11 @@ public class GamePanel extends JPanel implements Runnable{
         //convert g to g2 for drawing 2D
         Graphics2D g2 = (Graphics2D)g;
 
+        bgManager.draw(g2);
+
         player.draw(g2);
+
+        brick.draw(g2);
 
         g2.dispose();
     }
