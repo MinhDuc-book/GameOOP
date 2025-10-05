@@ -79,8 +79,10 @@ public class Brick extends GameObject {
         for (int i = 0; i < 10; ++i) {
             for (int j = 0; j < 20; ++j) {
                 if (brickMap[i][j] == 1) {
+                    this.countLife = 1;
                     g2.drawImage(brick[1].brickImage, j*30, i*30, 30, 30, null);
                 } else if (brickMap[i][j] == 2) {
+                    this.countLife = 2;
                     g2.drawImage(brick[2].brickImage, j*30, i*30, 30, 30, null);
                 }
             }

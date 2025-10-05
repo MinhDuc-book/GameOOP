@@ -2,6 +2,7 @@ package game.MAIN;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 import game.BACKGROUND.BGManager;
 import game.ENTITY.*;
@@ -19,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable{
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     Player player = new Player(this, keyH);
+    public ArrayList<Ball> balls = new ArrayList<>();
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -26,11 +28,17 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        setupGame();
     }
 
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void setupGame() {
+        Ball initBall = new Ball(this, player);
+        balls.add(initBall);
     }
 
     @Override
@@ -61,7 +69,17 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
+
         player.update();
+
+        for (Ball b : balls) {
+            if (b.isActive == false && keyH.spacePressed) {
+                b.isActive = true;
+
+            }
+
+            b.update();
+        }
     }
 
     @Override
@@ -76,6 +94,10 @@ public class GamePanel extends JPanel implements Runnable{
         player.draw(g2);
 
         brick.draw(g2);
+
+        for (Ball b : balls) {
+            b.draw(g2);
+        }
 
         g2.dispose();
     }
