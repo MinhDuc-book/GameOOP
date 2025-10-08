@@ -11,6 +11,7 @@ public class Giaodien extends JPanel implements MouseListener {
     private MenuButton startBtn = new MenuButton("BẮT ĐẦU", 100, 170, 150, 50);
     private MenuButton scoreBtn = new MenuButton(" Điểm", 100, 100, 150, 50);
     private boolean showInstructions = false;
+    private boolean showScore = false;
 
     public Giaodien(String imagePath) {
         image = new ImageIcon(getClass().getClassLoader().getResource(imagePath)).getImage();
@@ -55,6 +56,7 @@ public class Giaodien extends JPanel implements MouseListener {
             System.out.println("Bắt đầu trò chơi!");
             // TODO: chuyển sang màn chơi
         } else if (scoreBtn.isClicked(mouseX, mouseY)) {
+            showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
             // TODO: hiển thị bảng điểm
         }
@@ -70,10 +72,11 @@ public class Giaodien extends JPanel implements MouseListener {
     public static void main(String[] args) {
         JFrame window = new JFrame("Background");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.add(new Giaodien("Screenshot 2025-10-05 215655.png"));
+        window.add(new Giaodien("src/asset/background/giaodien.png"));
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
 
 }
+
