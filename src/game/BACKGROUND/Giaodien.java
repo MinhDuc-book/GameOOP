@@ -1,4 +1,4 @@
-package face;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,4 +75,5 @@ public class Giaodien extends JPanel implements MouseListener {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
+
 }
