@@ -1,4 +1,3 @@
-package face;
 
 import java.awt.*;
 
@@ -30,4 +29,5 @@ public class MenuButton {
     public String getTennut() {
         return tennut;
     }
+
 }
