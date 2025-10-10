@@ -9,20 +9,20 @@ import game.ENTITY.*;
 import game.GAMESTATE.GameState;
 import game.OBJECT.LifeCount;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     public final int SCREEN_WIDTH = 600;
     public final int SCREEN_HEIGHT = 700;
 
     //FPS
     int FPS = 60;
 
-    BGManager bgManager = new BGManager(this);
+    public BGManager bgManager = new BGManager(this);
     public Brick brick = new Brick(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread = new Thread(this);
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
-    GameState gameState = new GameState();
+    public GameState gameState = new GameState();
     LifeCount lifeCount = new LifeCount(this, player);
 
     public GamePanel() {
@@ -35,13 +35,14 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void startGameThread() {
-        gameState.setStart(true);
         gameThread.start();
     }
 
     public void setupGame() {
         Ball initBall = new Ball(this, player);
         balls.add(initBall);
+
+        gameState.setCurrentState(GameState.State.PLAY);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
 
-        if (gameState.getStart() == true) {
+        if (gameState.getCurrentState() == GameState.State.PLAY) {
             player.update();
 
             for (Ball b : balls) {
@@ -86,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable{
 
                 b.update();
             }
-        } else {
+        } else if (gameState.getCurrentState() == GameState.State.MENU){
             // Menu, Level, else if
             System.out.println("END");
         }

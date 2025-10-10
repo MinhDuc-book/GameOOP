@@ -28,6 +28,7 @@ public class Ball extends MovableObject {
     public Ball(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
+        this.gameState = gp.gameState;
         reset();
     }
 
@@ -61,7 +62,7 @@ public class Ball extends MovableObject {
             if (y + diameter >= gp.SCREEN_HEIGHT) {
                 player.lifeCount--;
                 if (player.lifeCount <= 0) {
-                    gameState.setStart(false);
+                    gp.gameState.setCurrentState(GameState.State.END);
                 } else {
                     reset();
                 }
@@ -69,6 +70,10 @@ public class Ball extends MovableObject {
 
             checkCollisionWithPlayer();
             checkCollisionWithBrick();
+
+            if (isAllBricksDestroyed()) {
+                gp.gameState.setCurrentState(GameState.State.DONE);
+            }
         }
     }
 
@@ -136,7 +141,17 @@ public class Ball extends MovableObject {
         }
     }
 
-
+    private boolean isAllBricksDestroyed() {
+        int[][] map = gp.brick.brickMap;
+        for (int[] row : map) {
+            for (int value : row) {
+                if (value > 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     public void draw(Graphics2D g2) {
         if (image != null)
