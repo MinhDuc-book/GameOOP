@@ -1,11 +1,15 @@
+package game.BACKGROUND;
 
-
+import game.MAIN.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class Giaodien extends JPanel implements MouseListener {
     private Image image;
+    private JFrame  frame;
 
     private MenuButton instructionBtn = new MenuButton(" Hướng dẫn", 100, 240, 150, 50);
     private MenuButton startBtn = new MenuButton("BẮT ĐẦU", 100, 170, 150, 50);
@@ -13,10 +17,11 @@ public class Giaodien extends JPanel implements MouseListener {
     private boolean showInstructions = false;
     private boolean showScore = false;
 
-    public Giaodien(String imagePath) {
+    public Giaodien(String imagePath, JFrame window) {
         image = new ImageIcon(getClass().getClassLoader().getResource(imagePath)).getImage();
-        setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));
+        setPreferredSize(new Dimension(600, 700));
         addMouseListener(this);
+        this.frame = window;
     }
 
     @Override
@@ -52,10 +57,33 @@ public class Giaodien extends JPanel implements MouseListener {
                 repaint();
             }
 
-        } else if (startBtn.isClicked(mouseX, mouseY)) {
+        }
+
+        else if (startBtn.isClicked(mouseX, mouseY)) {
+
             System.out.println("Bắt đầu trò chơi!");
-            // TODO: chuyển sang màn chơi
-        } else if (scoreBtn.isClicked(mouseX, mouseY)) {
+
+            frame.getContentPane().removeAll();
+
+            GamePanel gamePanel = new GamePanel(); // Khởi tạo GamePanel
+            frame.getContentPane().add(gamePanel); // Thêm vào JFrame
+            frame.revalidate();
+            frame.repaint();
+            frame.setSize(600, 700);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            gamePanel.requestFocusInWindow();
+            // Gắn KeyListener vào gamePanel
+            KeyHandler keyH = new KeyHandler();
+            gamePanel.addKeyListener(keyH);
+            gamePanel.setFocusable(true);
+            gamePanel.requestFocusInWindow();
+
+            // Khởi động game
+            gamePanel.startGameThread();
+
+    }
+        else if (scoreBtn.isClicked(mouseX, mouseY)) {
             showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
             // TODO: hiển thị bảng điểm
@@ -69,14 +97,6 @@ public class Giaodien extends JPanel implements MouseListener {
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
 
-    public static void main(String[] args) {
-        JFrame window = new JFrame("Background");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.add(new Giaodien("src/asset/background/giaodien.png"));
-        window.pack();
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
-    }
-
 }
+
 
