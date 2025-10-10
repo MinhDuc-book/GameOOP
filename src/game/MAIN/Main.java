@@ -10,10 +10,7 @@ import game.MAIN.*;
 
 public class Main {
     public static void main(String[] args) {
-//        JFrame window = new JFrame();
-//        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        window.setResizable(false);
-//        window.setTitle("Arkanoid");
+
         JFrame window = new JFrame();
         Giaodien giaodien = new Giaodien("asset/background/giaodien.png", window);
         // Thêm giao diện vào cửa sổ
@@ -22,15 +19,6 @@ public class Main {
         window.setLocationRelativeTo(null); // căn giữa màn hình
         window.setVisible(true);
 
-//        GamePanel gamePanel = new GamePanel();
-//        window.add(gamePanel);
-//        window.pack();
-//
-//        window.setLocation(300,100);
-//        window.setVisible(true);
-//
-//
-//        gamePanel.startGameThread();
     }
 
 }
