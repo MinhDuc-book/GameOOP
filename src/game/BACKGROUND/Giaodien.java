@@ -1,4 +1,8 @@
+package game.BACKGROUND;
 
+
+
+import game.MAIN.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,7 +58,20 @@ public class Giaodien extends JPanel implements MouseListener {
 
         } else if (startBtn.isClicked(mouseX, mouseY)) {
             System.out.println("Bắt đầu trò chơi!");
-            // TODO: chuyển sang màn chơi
+            JFrame window = new JFrame();
+            window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            window.setResizable(false);
+            window.setTitle("Arkanoid");
+            GamePanel gamePanel = new GamePanel();
+            window.add(gamePanel);
+            window.pack();
+            window.setLocation(300,100);
+            window.setVisible(true);
+
+
+            gamePanel.startGameThread();
+
+
         } else if (scoreBtn.isClicked(mouseX, mouseY)) {
             showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
@@ -69,14 +86,6 @@ public class Giaodien extends JPanel implements MouseListener {
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
 
-    public static void main(String[] args) {
-        JFrame window = new JFrame("Background");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.add(new Giaodien("src/asset/background/giaodien.png"));
-        window.pack();
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
-    }
-
 }
+
 

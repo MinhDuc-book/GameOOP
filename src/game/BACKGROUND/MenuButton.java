@@ -1,3 +1,4 @@
+package game.BACKGROUND;
 
 import java.awt.*;
 
