@@ -13,6 +13,7 @@ public class Main {
 
         JFrame window = new JFrame();
         Giaodien giaodien = new Giaodien("asset/background/giaodien.png", window);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Thêm giao diện vào cửa sổ
         window.add(giaodien);
         window.pack();

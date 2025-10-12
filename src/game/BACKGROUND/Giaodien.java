@@ -1,8 +1,8 @@
 package game.BACKGROUND;
 
 import game.MAIN.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import game.SOUND.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -10,6 +10,9 @@ import java.awt.event.*;
 public class Giaodien extends JPanel implements MouseListener {
     private Image image;
     private JFrame  frame;
+    private String soundpath;
+    private Sound sound;
+    private Boolean soundactived = false;
 
     private MenuButton instructionBtn = new MenuButton(" Hướng dẫn", 100, 240, 150, 50);
     private MenuButton startBtn = new MenuButton("BẮT ĐẦU", 100, 170, 150, 50);
@@ -22,7 +25,15 @@ public class Giaodien extends JPanel implements MouseListener {
         setPreferredSize(new Dimension(600, 700));
         addMouseListener(this);
         this.frame = window;
+        soundpath = "/asset/sound/game-music-loop-7-145285.wav";
+        if (!soundactived) {
+            Sound sound = new Sound();
+            sound.setSound(soundpath);
+            soundactived = true;
+            sound.loop();
+        }
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -62,9 +73,6 @@ public class Giaodien extends JPanel implements MouseListener {
         else if (startBtn.isClicked(mouseX, mouseY)) {
 
             System.out.println("Bắt đầu trò chơi!");
-
-            frame.getContentPane().removeAll();
-
             GamePanel gamePanel = new GamePanel(); // Khởi tạo GamePanel
             frame.getContentPane().add(gamePanel); // Thêm vào JFrame
             frame.revalidate();
@@ -78,7 +86,6 @@ public class Giaodien extends JPanel implements MouseListener {
             gamePanel.addKeyListener(keyH);
             gamePanel.setFocusable(true);
             gamePanel.requestFocusInWindow();
-
             // Khởi động game
             gamePanel.startGameThread();
 
