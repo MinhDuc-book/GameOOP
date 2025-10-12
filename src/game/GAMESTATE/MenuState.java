@@ -17,5 +17,12 @@ public class MenuState {
     private static Rectangle[] buttonBounds;
     private static int totalButtons = 4;
 
+    public MenuState(GamePanel gp) {
+        this.gp = gp;
 
+    }
+
+    public void loadImage() {
+
+    }
 }

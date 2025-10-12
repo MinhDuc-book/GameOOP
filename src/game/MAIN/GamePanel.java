@@ -96,8 +96,11 @@ public class GamePanel extends JPanel implements Runnable {
                 b.update();
             }
         } else if (gameState.getCurrentState() == GameState.State.MENU){
-            // Menu, Level, else if
+            System.out.println("TURN ON MENU");
+        } else if (gameState.getCurrentState() == GameState.State.END) {
             System.out.println("END");
+        } else if (gameState.getCurrentState() == GameState.State.DONE) {
+            System.out.println("DONE LEVEL X");
         }
 
     }
