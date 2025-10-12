@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Giaodien extends JPanel implements MouseListener {
+public class DefaultBackground extends JPanel implements MouseListener {
     private Image image;
     private JFrame  frame;
     private String soundpath;
@@ -20,7 +20,7 @@ public class Giaodien extends JPanel implements MouseListener {
     private boolean showInstructions = false;
     private boolean showScore = false;
 
-    public Giaodien(String imagePath, JFrame window) {
+    public DefaultBackground(String imagePath, JFrame window) {
         image = new ImageIcon(getClass().getClassLoader().getResource(imagePath)).getImage();
         setPreferredSize(new Dimension(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()));
         addMouseListener(this);
