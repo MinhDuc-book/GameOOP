@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
     public GameState gameState = new GameState();
     LifeCount lifeCount = new LifeCount(this, player);
 
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
@@ -82,27 +83,35 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+
     public void update() {
+        switch (gameState.getCurrentState()) {
+            case PLAY:
+                player.update();
 
-        if (gameState.getCurrentState() == GameState.State.PLAY) {
-            player.update();
-
-            for (Ball b : balls) {
-                if (b.isActive == false && keyH.spacePressed) {
-                    b.isActive = true;
-
+                for (Ball b : balls) {
+                    if (b.isActive == false && keyH.spacePressed) {
+                        b.isActive = true;
+                    }
+                    b.update();
                 }
+                break;
 
-                b.update();
-            }
-        } else if (gameState.getCurrentState() == GameState.State.MENU){
-            System.out.println("TURN ON MENU");
-        } else if (gameState.getCurrentState() == GameState.State.END) {
-            System.out.println("END");
-        } else if (gameState.getCurrentState() == GameState.State.DONE) {
-            System.out.println("DONE LEVEL X");
+            case MENU:
+                System.out.println("TURN ON MENU");
+                break;
+
+            case END:
+                System.out.println("END");
+                break;
+
+            case DONE:
+                System.out.println("DONE LEVEL X");
+                break;
+
+            default:
+                break;
         }
-
     }
 
     @Override
