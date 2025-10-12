@@ -11,20 +11,22 @@ import java.io.InputStreamReader;
 
 public class Brick extends GameObject {
 
-    // red -> 1 time -> 0
-    // yellow -> 2 times -> 1
+    // red -> 1 time -> 1
+    // yellow -> 2 times -> 2
+    // silver -> cannot break -> 3
+    // blue -> more lifeCount -> 4
 
     GamePanel gp;
     Brick brick[];
 
     public BufferedImage brickImage;
     int brickMap[][];
-    int countLife;
+    public int countLife;
 
     public Brick(GamePanel gp) {
         this.gp = gp;
         brickMap = new int[10][20];
-        brick = new Brick[3];
+        brick = new Brick[5];
         getBrickImage();
         loadBrickMap();
     }
@@ -44,6 +46,14 @@ public class Brick extends GameObject {
             // yellow
             brick[2] = new Brick();
             brick[2].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick2.png"));
+
+            //cannot break
+            brick[3] = new Brick();
+            brick[3].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick3.png"));
+
+            // more lifeCount
+            brick[4] = new Brick();
+            brick[4].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick4.png"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -84,6 +94,10 @@ public class Brick extends GameObject {
                 } else if (brickMap[i][j] == 2) {
                     this.countLife = 2;
                     g2.drawImage(brick[2].brickImage, j*30, i*30, 30, 30, null);
+                } else if (brickMap[i][j] == 3) {
+                    g2.drawImage(brick[3].brickImage, j*30, i*30, 30, 30, null);
+                } else if (brickMap[i][j] == 4) {
+                    g2.drawImage(brick[4].brickImage, j*30, i*30, 30, 30, null);
                 }
             }
         }
