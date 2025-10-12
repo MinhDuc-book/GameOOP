@@ -14,7 +14,7 @@ public class Giaodien extends JPanel implements MouseListener {
     private Sound sound;
     private Boolean soundactived = false;
 
-    private MenuButton instructionBtn = new MenuButton(" Hướng dẫn", 100, 240, 150, 50);
+    private MenuButton instructionBtn = new MenuButton(" Hướng dẫn", 100,  240, 150, 50);
     private MenuButton startBtn = new MenuButton("BẮT ĐẦU", 100, 170, 150, 50);
     private MenuButton scoreBtn = new MenuButton(" Điểm", 100, 100, 150, 50);
     private boolean showInstructions = false;
@@ -77,7 +77,7 @@ public class Giaodien extends JPanel implements MouseListener {
             frame.getContentPane().add(gamePanel); // Thêm vào JFrame
             frame.revalidate();
             frame.repaint();
-            frame.setSize(600, 700);
+            frame.setSize(600, 800);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
             gamePanel.requestFocusInWindow();

@@ -16,6 +16,7 @@ public class GamePanel extends JPanel implements Runnable {
     //FPS
     int FPS = 60;
 
+
     public BGManager bgManager = new BGManager(this);
     public Brick brick = new Brick(this);
     KeyHandler keyH = new KeyHandler();
