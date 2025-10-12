@@ -10,7 +10,7 @@ import java.io.*;
 
 public class Player extends MovableObject {
     private int speed = 7;
-    public int lifeCount = 3;
+    public int lifeCount = 1;
 
     GamePanel gp;
     KeyHandler keyH;

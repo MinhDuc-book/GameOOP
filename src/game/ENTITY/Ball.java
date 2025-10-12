@@ -1,5 +1,6 @@
 package game.ENTITY;
 
+import game.GAMESTATE.GameState;
 import game.MAIN.GamePanel;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -8,6 +9,8 @@ import java.awt.image.BufferedImage;
 public class Ball extends MovableObject {
     GamePanel gp;
     Player player;
+    Brick bricks;
+    GameState gameState = new GameState();
 
     public int diameter = 20;
     public int speedX, speedY;
@@ -25,6 +28,7 @@ public class Ball extends MovableObject {
     public Ball(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
+        this.gameState = gp.gameState;
         reset();
     }
 
@@ -56,11 +60,20 @@ public class Ball extends MovableObject {
 
             // Rơi xuống đáy -> reset
             if (y + diameter >= gp.SCREEN_HEIGHT) {
-                reset();
                 player.lifeCount--;
+                if (player.lifeCount <= 0) {
+                    gp.gameState.setCurrentState(GameState.State.END);
+                } else {
+                    reset();
+                }
             }
 
             checkCollisionWithPlayer();
+            checkCollisionWithBrick();
+
+            if (isAllBricksDestroyed()) {
+                gp.gameState.setCurrentState(GameState.State.DONE);
+            }
         }
     }
 
@@ -79,6 +92,66 @@ public class Ball extends MovableObject {
         }
     }
 
+    private void checkCollisionWithBrick() {
+        Brick brick = gp.brick; // Truy cập brick trong GamePanel
+        int[][] map = brick.brickMap;
+
+        int brickWidth = 30;
+        int brickHeight = 30;
+
+        Rectangle ballRect = new Rectangle(x, y, diameter, diameter);
+
+        // Duyệt toàn bộ map
+        for (int row = 0; row < map.length; row++) {
+            for (int col = 0; col < map[0].length; col++) {
+                int brickValue = map[row][col];
+                if (brickValue > 0) {
+                    int brickX = col * brickWidth;
+                    int brickY = row * brickHeight;
+                    Rectangle brickRect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
+
+                    if (ballRect.intersects(brickRect)) {
+
+                        // Lấy trung tâm để xác định hướng va chạm
+                        double ballCenterX = x + diameter / 2.0;
+                        double ballCenterY = y + diameter / 2.0;
+
+                        double brickCenterX = brickX + brickWidth / 2.0;
+                        double brickCenterY = brickY + brickHeight / 2.0;
+
+                        double dx = ballCenterX - brickCenterX;
+                        double dy = ballCenterY - brickCenterY;
+
+                        if (Math.abs(dx) > Math.abs(dy)) {
+                            // Va theo trục X
+                            speedX = -speedX;
+                        } else {
+                            // Va theo trục Y
+                            speedY = -speedY;
+                        }
+
+                        // --- Giảm độ bền gạch ---
+                        map[row][col]--;
+
+                        // Thoát khỏi vòng để tránh xử lý va nhiều viên cùng lúc
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isAllBricksDestroyed() {
+        int[][] map = gp.brick.brickMap;
+        for (int[] row : map) {
+            for (int value : row) {
+                if (value > 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     public void draw(Graphics2D g2) {
         if (image != null)

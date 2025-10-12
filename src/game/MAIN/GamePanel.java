@@ -6,21 +6,24 @@ import java.util.ArrayList;
 
 import game.BACKGROUND.BGManager;
 import game.ENTITY.*;
+import game.GAMESTATE.GameState;
+import game.OBJECT.LifeCount;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     public final int SCREEN_WIDTH = 600;
     public final int SCREEN_HEIGHT = 700;
 
     //FPS
     int FPS = 60;
 
-    BGManager bgManager = new BGManager(this);
-    Brick brick = new Brick(this);
-
+    public BGManager bgManager = new BGManager(this);
+    public Brick brick = new Brick(this);
     KeyHandler keyH = new KeyHandler();
-    Thread gameThread;
+    Thread gameThread = new Thread(this);
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
+    public GameState gameState = new GameState();
+    LifeCount lifeCount = new LifeCount(this, player);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -32,18 +35,21 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void startGameThread() {
-        gameThread = new Thread(this);
         gameThread.start();
     }
 
     public void setupGame() {
         Ball initBall = new Ball(this, player);
         balls.add(initBall);
+
+        gameState.setCurrentState(GameState.State.PLAY);
     }
 
     @Override
     public void run() {
+
         while (gameThread != null) {
+
             double drawInterval = 1000000000/FPS; // about 0.166667 second
             double nextDrawTime = System.nanoTime() + drawInterval;
 
@@ -70,16 +76,22 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
 
-        player.update();
+        if (gameState.getCurrentState() == GameState.State.PLAY) {
+            player.update();
 
-        for (Ball b : balls) {
-            if (b.isActive == false && keyH.spacePressed) {
-                b.isActive = true;
+            for (Ball b : balls) {
+                if (b.isActive == false && keyH.spacePressed) {
+                    b.isActive = true;
 
+                }
+
+                b.update();
             }
-
-            b.update();
+        } else if (gameState.getCurrentState() == GameState.State.MENU){
+            // Menu, Level, else if
+            System.out.println("END");
         }
+
     }
 
     @Override
@@ -94,6 +106,8 @@ public class GamePanel extends JPanel implements Runnable{
         player.draw(g2);
 
         brick.draw(g2);
+
+        lifeCount.drawHeart(g2);
 
         for (Ball b : balls) {
             b.draw(g2);
