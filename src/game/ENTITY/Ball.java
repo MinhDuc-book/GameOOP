@@ -131,7 +131,16 @@ public class Ball extends MovableObject {
                         }
 
                         // --- Giảm độ bền gạch ---
-                        map[row][col]--;
+                        if (map[row][col] == 3) {
+                            map[row][col] = 3;
+                        } else if (map[row][col] == 4 || map[row][col] == 5) {
+                            map[row][col] = 0;
+
+                        } else {
+                            map[row][col]--;
+                        }
+
+
 
                         // Thoát khỏi vòng để tránh xử lý va nhiều viên cùng lúc
                         return;
@@ -141,16 +150,18 @@ public class Ball extends MovableObject {
         }
     }
 
+    // check = true when have any brick with brick_id != 3
     private boolean isAllBricksDestroyed() {
         int[][] map = gp.brick.brickMap;
+        boolean check = true;
         for (int[] row : map) {
             for (int value : row) {
-                if (value > 0) {
-                    return false;
+                if (value != 3 && value != 0) {
+                    check = false;
                 }
             }
         }
-        return true;
+        return check;
     }
 
     public void draw(Graphics2D g2) {
