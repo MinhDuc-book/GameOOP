@@ -10,11 +10,18 @@ import game.GAMESTATE.GameState;
 import game.OBJECT.LifeCount;
 
 public class GamePanel extends JPanel implements Runnable {
-    public final int SCREEN_WIDTH = 600;
-    public final int SCREEN_HEIGHT = 700;
+    public static final int SCREEN_WIDTH = 600;
+    public static final int SCREEN_HEIGHT = 700;
 
     //FPS
     int FPS = 60;
+
+    public static int getSreenWidth() {
+        return SCREEN_WIDTH;
+    }
+    public static int getSreenHeight () {
+        return SCREEN_HEIGHT;
+    }
 
 
     public BGManager bgManager = new BGManager(this);

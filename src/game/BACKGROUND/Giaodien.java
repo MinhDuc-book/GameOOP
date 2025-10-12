@@ -22,7 +22,7 @@ public class Giaodien extends JPanel implements MouseListener {
 
     public Giaodien(String imagePath, JFrame window) {
         image = new ImageIcon(getClass().getClassLoader().getResource(imagePath)).getImage();
-        setPreferredSize(new Dimension(600, 700));
+        setPreferredSize(new Dimension(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()));
         addMouseListener(this);
         this.frame = window;
         soundpath = "/asset/sound/game-music-loop-7-145285.wav";
@@ -77,10 +77,9 @@ public class Giaodien extends JPanel implements MouseListener {
             frame.getContentPane().add(gamePanel); // Thêm vào JFrame
             frame.revalidate();
             frame.repaint();
-            frame.setSize(600, 800);
+            frame.setSize(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()+50);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-            gamePanel.requestFocusInWindow();
             // Gắn KeyListener vào gamePanel
             KeyHandler keyH = new KeyHandler();
             gamePanel.addKeyListener(keyH);
