@@ -25,7 +25,7 @@ public class Brick extends GameObject {
 
     public Brick(GamePanel gp) {
         this.gp = gp;
-        brickMap = new int[10][20];
+        brickMap = new int[10][19];
         brick = new Brick[5];
         getBrickImage();
         loadBrickMap();
@@ -72,7 +72,7 @@ public class Brick extends GameObject {
             for (int i = 0; i < 10; ++i) {
                 String line = br.readLine();
 
-                for (int j = 0; j < 20; ++j) {
+                for (int j = 0; j < 19; ++j) {
                     String number[] = line.split(" ");
                     int num = Integer.parseInt(number[j]); // string -> int
                     brickMap[i][j] = num;
@@ -87,7 +87,8 @@ public class Brick extends GameObject {
     public void draw(Graphics2D g2) {
         //g2.drawImage(brick[0].brickImage, 0, 0, 30, 30, null);
         for (int i = 0; i < 10; ++i) {
-            for (int j = 0; j < 20; ++j) {
+            for (int j = 0; j < 19; ++j) {
+
                 if (brickMap[i][j] == 1) {
                     this.countLife = 1;
                     g2.drawImage(brick[1].brickImage, j*30, i*30, 30, 30, null);

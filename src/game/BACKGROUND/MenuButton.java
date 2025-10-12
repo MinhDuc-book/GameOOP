@@ -2,10 +2,13 @@ package game.BACKGROUND;
 
 import game.ENTITY.GameObject;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class MenuButton extends GameObject {
     private String Name;
+    private static BufferedImage imageButton;
 
     public MenuButton(String label, int x, int y, int width, int height) {
         this.Name = label;
@@ -15,12 +18,33 @@ public class MenuButton extends GameObject {
         this.h = height;
     }
 
+    static {
+        try {
+            imageButton = ImageIO.read(MenuButton.class.getResourceAsStream("/asset/background/Button.png"));
+        } catch (Exception e) {
+            System.out.println("Could not load button image: " + e.getMessage());
+        }
+    }
+
     public void draw(Graphics g) {
-        g.setColor(Color.CYAN);
-        g.fillRect(x, y, w, h);
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 16));
-        g.drawString(Name, x + 15, y + 30);
+        // Draw button image
+        if (imageButton != null) {
+            g.drawImage(imageButton, x, y, w, h, null);
+        } else {
+            // Fallback if image not loaded
+            g.setColor(new Color(100, 100, 150));
+            g.fillRoundRect(x, y, w, h, 10, 10);
+            g.setColor(Color.WHITE);
+            g.drawRoundRect(x, y, w, h, 10, 10);
+        }
+
+        // Draw text centered on button
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 18));
+        FontMetrics fm = g.getFontMetrics();
+        int textX = x + (w - fm.stringWidth(Name)) / 2;
+        int textY = y + ((h - fm.getHeight()) / 2) + fm.getAscent();
+        g.drawString(Name, textX, textY);
     }
 
     public boolean isClicked(int mouseX, int mouseY) {
