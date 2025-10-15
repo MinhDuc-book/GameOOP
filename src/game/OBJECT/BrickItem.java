@@ -1,23 +1,28 @@
 package game.OBJECT;
 
-import game.ENTITY.*;
+import game.ENTITY.Ball;
+import game.ENTITY.Player;
+import game.GAMESTATE.GameState;
 import game.MAIN.GamePanel;
 
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
-public class BrickItem extends MovableObject {
+public class BrickItem {
     GamePanel gp;
-    Player player;
-    BrickItem[] brickItems;
+    Ball ball;
+    ArrayList<BrickItem> items;
 
-    public static BufferedImage image0;
-    public static BufferedImage image1;
+    int speedY = 2;
 
-    public static final int MORE_LIFE_COUNT = 0;
-    public static final int DOUBLE_PLAYER_SIZE = 1;
+    public boolean objectActived = true;
+    public boolean objectCollision = false;
 
-    public BrickItem(GamePanel gp, Player player) {
-        this.gp = gp;
-        this.player = player;
-    }
+    public static final int MORE_BALL = 0;
+    public static final int PLAYER_SIZE = 1;
+    public static final int MORE_LIFE = 2;
+    public static final int SLOW_BALL = 3;
+    public static final int BOMB = 4;
+
+
+
 }

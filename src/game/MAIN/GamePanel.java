@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import game.BACKGROUND.BGManager;
 import game.ENTITY.*;
 import game.GAMESTATE.GameState;
+import game.OBJECT.EnhancedObject;
 import game.OBJECT.LifeCount;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -31,8 +32,9 @@ public class GamePanel extends JPanel implements Runnable {
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
     public GameState gameState = new GameState();
+    public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
-
+    public EnhancedObject brickItem[] = new EnhancedObject[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -50,6 +52,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         Ball initBall = new Ball(this, player);
         balls.add(initBall);
+
+        aSetter.setObject();
 
         gameState.setCurrentState(GameState.State.PLAY);
     }
@@ -122,6 +126,12 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D)g;
 
         bgManager.draw(g2);
+
+        for (int i = 0; i < brickItem.length; ++i) {
+            if (brickItem[i] != null) {
+                brickItem[i].draw(g2, this);
+            }
+        }
 
         player.draw(g2);
 
