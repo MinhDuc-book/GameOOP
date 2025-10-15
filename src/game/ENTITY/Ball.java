@@ -2,9 +2,12 @@ package game.ENTITY;
 
 import game.GAMESTATE.GameState;
 import game.MAIN.GamePanel;
+import game.OBJECT.BrickItem;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Ball extends MovableObject {
     GamePanel gp;
@@ -48,17 +51,14 @@ public class Ball extends MovableObject {
             x += speedX;
             y += speedY;
 
-            // Nảy tường trái/phải
             if (x <= 0 || x + diameter >= gp.SCREEN_WIDTH) {
                 speedX = -speedX;
             }
 
-            // Nảy trần
             if (y <= 0) {
                 speedY = -speedY;
             }
 
-            // Rơi xuống đáy -> reset
             if (y + diameter >= gp.SCREEN_HEIGHT) {
                 player.lifeCount--;
                 if (player.lifeCount <= 0) {
@@ -82,10 +82,8 @@ public class Ball extends MovableObject {
         Rectangle playerRect = new Rectangle(player.x, player.y, player.w, player.h);
 
         if (ballRect.intersects(playerRect)) {
-            // Đặt bóng lên trên player để tránh dính vào
             y = player.y - diameter;
 
-            // Nếu đang đi xuống thì nảy lên
             if (speedY > 0) {
                 speedY = -speedY;
             }
@@ -93,7 +91,7 @@ public class Ball extends MovableObject {
     }
 
     private void checkCollisionWithBrick() {
-        Brick brick = gp.brick; // Truy cập brick trong GamePanel
+        Brick brick = gp.brick;
         int[][] map = brick.brickMap;
 
         int brickWidth = 30;
@@ -101,7 +99,6 @@ public class Ball extends MovableObject {
 
         Rectangle ballRect = new Rectangle(x, y, diameter, diameter);
 
-        // Duyệt toàn bộ map
         for (int row = 0; row < map.length; row++) {
             for (int col = 0; col < map[0].length; col++) {
                 int brickValue = map[row][col];
@@ -112,7 +109,6 @@ public class Ball extends MovableObject {
 
                     if (ballRect.intersects(brickRect)) {
 
-                        // Lấy trung tâm để xác định hướng va chạm
                         double ballCenterX = x + diameter / 2.0;
                         double ballCenterY = y + diameter / 2.0;
 
@@ -123,26 +119,38 @@ public class Ball extends MovableObject {
                         double dy = ballCenterY - brickCenterY;
 
                         if (Math.abs(dx) > Math.abs(dy)) {
-                            // Va theo trục X
                             speedX = -speedX;
                         } else {
-                            // Va theo trục Y
                             speedY = -speedY;
                         }
 
-                        // --- Giảm độ bền gạch ---
                         if (map[row][col] == 3) {
                             map[row][col] = 3;
-                        } else if (map[row][col] == 4 || map[row][col] == 5) {
+                        } else if (map[row][col] == 4) {
+                            int itemType = map[row][col];
                             map[row][col] = 0;
 
-                        } else {
+                            BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
+                            gp.items.add(newItem);
+
+                        } else if (map[row][col] == 5) {
+                            int itemType = map[row][col];
+                            map[row][col] = 0;
+
+                            BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
+                            gp.items.add(newItem);
+                        } else if (map[row][col] == 6) {
+                            int itemType = map[row][col];
+                            map[row][col] = 0;
+
+                            BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
+                            gp.items.add(newItem);
+                        }
+
+                        else {
                             map[row][col]--;
                         }
 
-
-
-                        // Thoát khỏi vòng để tránh xử lý va nhiều viên cùng lúc
                         return;
                     }
                 }
@@ -150,7 +158,6 @@ public class Ball extends MovableObject {
         }
     }
 
-    // check = true when have any brick with brick_id != 3
     private boolean isAllBricksDestroyed() {
         int[][] map = gp.brick.brickMap;
         boolean check = true;
