@@ -45,6 +45,7 @@ public class BrickItem extends GameObject {
         try {
             moreLife = ImageIO.read(BrickItem.class.getResourceAsStream("/asset/BrickItem/ItemHeart.png"));
             playerSize = ImageIO.read(BrickItem.class.getResourceAsStream("/asset/BrickItem/ItemSize.png"));
+            moreBall = ImageIO.read(BrickItem.class.getResourceAsStream("/asset/BrickItem/Item3.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

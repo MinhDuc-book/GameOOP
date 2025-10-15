@@ -19,6 +19,7 @@ public class Ball extends MovableObject {
     public int speedX, speedY;
     private static BufferedImage image;
     public boolean isActive = false;
+    public boolean isRemoved = false;
 
     static {
         try {
@@ -60,12 +61,7 @@ public class Ball extends MovableObject {
             }
 
             if (y + diameter >= gp.SCREEN_HEIGHT) {
-                player.lifeCount--;
-                if (player.lifeCount <= 0) {
-                    gp.gameState.setCurrentState(GameState.State.END);
-                } else {
-                    reset();
-                }
+                this.isRemoved = true;
             }
 
             checkCollisionWithPlayer();

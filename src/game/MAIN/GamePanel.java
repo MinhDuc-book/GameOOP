@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
     public GameState gameState = new GameState();
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
-    public ArrayList<BrickItem> items = new ArrayList<>();  // ✅ PUBLIC để Ball có thể thêm vào
+    public ArrayList<BrickItem> items = new ArrayList<>();  //PUBLIC để Ball có thể thêm vào
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -92,12 +92,41 @@ public class GamePanel extends JPanel implements Runnable {
             case PLAY:
                 player.update();
 
-                for (Ball b : balls) {
-                    if (b.isActive == false && keyH.spacePressed) {
+                Iterator<Ball> ballIterator = balls.iterator();
+                while (ballIterator.hasNext()) {
+                    Ball b = ballIterator.next();
+
+                    // Kích hoạt bóng khi nhấn Space
+                    if (!b.isActive && keyH.spacePressed) {
                         b.isActive = true;
                     }
+
+                    // Cập nhật trạng thái bóng
                     b.update();
+
+                    // Nếu bóng bị đánh dấu xóa → xóa luôn
+                    if (b.isRemoved) {
+                        ballIterator.remove();
+                    }
                 }
+
+                if (balls.isEmpty()) {
+                    player.lifeCount--;
+
+                    System.out.println("⚠️ Player lost a ball. Remaining life: " + player.lifeCount);
+
+                    if (player.lifeCount <= 0) {
+                        gameState.setCurrentState(GameState.State.END);
+                    } else {
+                        Ball newBall = new Ball(this, player);
+                        newBall.isActive = false; // chờ người chơi nhấn space
+                        balls.add(newBall);
+                    }
+                }
+
+
+
+
 
                 // Update items và check collision
                 Iterator<BrickItem> iterator = items.iterator();
