@@ -6,7 +6,6 @@ import game.MAIN.KeyHandler;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
 
 public class Player extends MovableObject {
     private int speed = 7;
@@ -18,13 +17,20 @@ public class Player extends MovableObject {
     public BufferedImage playerImage;
     public String state;
 
+    // ✅ THÊM CÁC BIẾN CHO HIỆU ỨNG TẠM THỜI
+    private int normalWidth = 100;   // Kích thước bình thường
+    private int bigWidth = 200;      // Kích thước lớn
+    private boolean isBigMode = false;
+    private long bigModeStartTime = 0;
+    private final long BIG_MODE_DURATION = 5000; // 5 giây (5000 milliseconds)
+
     public Player(GamePanel gp, KeyHandler keyH) {
         this(250, 550, 100, 30, Color.GREEN);
         this.gp = gp;
         this.keyH = keyH;
         this.state = "normalMode";
+        this.normalWidth = 100;  // Lưu kích thước ban đầu
         getPlayerImage();
-        //setDefaultValue();
     }
 
     public Player(int x, int y, int w, int h, Color color) {
@@ -34,14 +40,6 @@ public class Player extends MovableObject {
         this.h = h;
         this.color = color;
     }
-
-    //public void setDefaultValue() {
-    //    x = 500;
-    //    y = 600;
-    //    w = 100;
-    //    h = 30;
-    //    color = Color.GREEN;
-    //}
 
     public void setWidth(int w) {
         this.w = w;
@@ -67,7 +65,36 @@ public class Player extends MovableObject {
         this.state = state;
     }
 
+    // ✅ KÍCH HOẠT CHẾ ĐỘ LỚN
+    public void activateBigMode() {
+        isBigMode = true;
+        bigModeStartTime = System.currentTimeMillis();
+        this.w = bigWidth;
+        System.out.println("🔵 Big Mode activated!");
+    }
+
+    // ✅ TẮT CHẾ ĐỘ LỚN
+    public void deactivateBigMode() {
+        isBigMode = false;
+        this.w = normalWidth;
+        System.out.println("🔴 Big Mode deactivated - back to normal");
+    }
+
+    // ✅ KIỂM TRA HẾT HẠN
+    private void checkBigModeExpiration() {
+        if (isBigMode) {
+            long currentTime = System.currentTimeMillis();
+            long elapsedTime = currentTime - bigModeStartTime;
+
+            if (elapsedTime >= BIG_MODE_DURATION) {
+                deactivateBigMode();
+            }
+        }
+    }
+
     public void update() {
+        // ✅ Kiểm tra hết hạn hiệu ứng
+        checkBigModeExpiration();
 
         if (keyH.rightPressed == true) {
             x += getSpeed();
@@ -80,27 +107,24 @@ public class Player extends MovableObject {
                 x = 0;
             }
         }
-
-
     }
 
     public void draw(Graphics2D g2) {
-        //g2.setColor(color);
-        //g2.fillRect(x, y, w, h);
-
         BufferedImage image = null;
-        switch (state) {
-            case "normalMode":
-                image = playerImage;
-                break;
-            case "bigMode":
-                image = playerImage;
-                this.w = 200;
-                this.h = 50;
-                break;
-        }
+
+        // Luôn dùng cùng 1 ảnh, chỉ thay đổi kích thước
+        image = playerImage;
+
         g2.drawImage(image, x, y, w, h, null);
+
+        // ✅ Hiển thị thời gian còn lại (optional)
+        if (isBigMode) {
+            long remainingTime = BIG_MODE_DURATION - (System.currentTimeMillis() - bigModeStartTime);
+            int seconds = (int) (remainingTime / 1000);
+
+            g2.setColor(Color.YELLOW);
+            g2.setFont(new Font("Arial", Font.BOLD, 12));
+            g2.drawString("BIG: " + (seconds + 1) + "s", x + w/2 - 20, y - 5);
+        }
     }
-
-
 }
