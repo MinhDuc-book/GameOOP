@@ -17,7 +17,6 @@ public class Player extends MovableObject {
     public BufferedImage playerImage;
     public String state;
 
-    // ✅ THÊM CÁC BIẾN CHO HIỆU ỨNG TẠM THỜI
     private int normalWidth = 100;   // Kích thước bình thường
     private int bigWidth = 200;      // Kích thước lớn
     private boolean isBigMode = false;
@@ -65,22 +64,20 @@ public class Player extends MovableObject {
         this.state = state;
     }
 
-    // ✅ KÍCH HOẠT CHẾ ĐỘ LỚN
     public void activateBigMode() {
         isBigMode = true;
         bigModeStartTime = System.currentTimeMillis();
         this.w = bigWidth;
-        System.out.println("🔵 Big Mode activated!");
+        System.out.println("Big Mode activated!");
     }
 
-    // ✅ TẮT CHẾ ĐỘ LỚN
     public void deactivateBigMode() {
         isBigMode = false;
         this.w = normalWidth;
-        System.out.println("🔴 Big Mode deactivated - back to normal");
+        System.out.println("Big Mode deactivated - back to normal");
     }
 
-    // ✅ KIỂM TRA HẾT HẠN
+    // KIỂM TRA HẾT HẠN
     private void checkBigModeExpiration() {
         if (isBigMode) {
             long currentTime = System.currentTimeMillis();
@@ -93,7 +90,7 @@ public class Player extends MovableObject {
     }
 
     public void update() {
-        // ✅ Kiểm tra hết hạn hiệu ứng
+        // Kiểm tra hết hạn hiệu ứng
         checkBigModeExpiration();
 
         if (keyH.rightPressed == true) {
@@ -117,7 +114,7 @@ public class Player extends MovableObject {
 
         g2.drawImage(image, x, y, w, h, null);
 
-        // ✅ Hiển thị thời gian còn lại (optional)
+        // Hiển thị thời gian còn lại (optional)
         if (isBigMode) {
             long remainingTime = BIG_MODE_DURATION - (System.currentTimeMillis() - bigModeStartTime);
             int seconds = (int) (remainingTime / 1000);

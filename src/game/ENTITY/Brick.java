@@ -15,7 +15,7 @@ public class Brick extends GameObject {
     // yellow -> 2 times -> 2
     // silver -> cannot break -> 3
     // blue -> more lifeCount -> 4
-    //       -> player Size -> 5
+    // pink -> player Size -> 5
 
     GamePanel gp;
     Brick brick[];
@@ -63,7 +63,7 @@ public class Brick extends GameObject {
 
             //more ball
             brick[6] = new Brick();
-            brick[6].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick5.png"));
+            brick[6].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick6.png"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
