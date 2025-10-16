@@ -8,6 +8,7 @@ import java.util.Iterator;
 import game.BACKGROUND.BGManager;
 import game.ENTITY.*;
 import game.GAMESTATE.GameState;
+import game.GAMESTATE.PauseState;
 import game.OBJECT.BrickItem;
 import game.OBJECT.EnhancedObject;
 import game.OBJECT.LifeCount;
@@ -34,7 +35,10 @@ public class GamePanel extends JPanel implements Runnable {
     public GameState gameState = new GameState();
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
-    public ArrayList<BrickItem> items = new ArrayList<>();  //PUBLIC để Ball có thể thêm vào
+    public ArrayList<BrickItem> items = new ArrayList<>();
+
+    // 60FPS thì khi giữ 1 giây coi như autoclick esc 60 lần -> liên tục chuyển đổi pause và resume -> cần 1 biến để giữ trạng thái
+    private boolean escPressedLastFrame = false;  // Để tránh toggle nhiều lần
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -88,6 +92,18 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+        // Xử lý toggle pause/play khi nhấn ESC
+        if (keyH.escPressed && !escPressedLastFrame) {
+            if (gameState.getCurrentState() == GameState.State.PLAY) {
+                gameState.setCurrentState(GameState.State.PAUSE);
+                System.out.println("Game Paused");
+            } else if (gameState.getCurrentState() == GameState.State.PAUSE) {
+                gameState.setCurrentState(GameState.State.PLAY);
+                System.out.println("Game Resumed");
+            }
+        }
+        escPressedLastFrame = keyH.escPressed;
+
         switch (gameState.getCurrentState()) {
             case PLAY:
                 player.update();
@@ -96,15 +112,12 @@ public class GamePanel extends JPanel implements Runnable {
                 while (ballIterator.hasNext()) {
                     Ball b = ballIterator.next();
 
-                    // Kích hoạt bóng khi nhấn Space
                     if (!b.isActive && keyH.spacePressed) {
                         b.isActive = true;
                     }
 
-                    // Cập nhật trạng thái bóng
                     b.update();
 
-                    // Nếu bóng bị đánh dấu xóa → xóa luôn
                     if (b.isRemoved) {
                         ballIterator.remove();
                     }
@@ -113,39 +126,36 @@ public class GamePanel extends JPanel implements Runnable {
                 if (balls.isEmpty()) {
                     player.lifeCount--;
 
-                    System.out.println("⚠️ Player lost a ball. Remaining life: " + player.lifeCount);
+                    System.out.println("Player lost a ball. Remaining life: " + player.lifeCount);
 
                     if (player.lifeCount <= 0) {
                         gameState.setCurrentState(GameState.State.END);
                     } else {
                         Ball newBall = new Ball(this, player);
-                        newBall.isActive = false; // chờ người chơi nhấn space
+                        newBall.isActive = false;
                         balls.add(newBall);
                     }
                 }
 
-
-
-
-
-                // Update items và check collision
                 Iterator<BrickItem> iterator = items.iterator();
                 while (iterator.hasNext()) {
                     BrickItem item = iterator.next();
                     item.update();
 
-                    // Kiểm tra va chạm với player
                     if (item.itemActived && checkItemPlayerCollision(item)) {
                         activeItem(item);
-                        iterator.remove();  // Xóa item sau khi nhặt
+                        iterator.remove();
                     }
 
-                    // Xóa item nếu rơi ra ngoài màn hình
                     if (!item.itemActived) {
                         iterator.remove();
                     }
                 }
 
+                break;
+
+            case PAUSE:
+                // Không update gì cả khi pause
                 break;
 
             case MENU:
@@ -165,14 +175,12 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // Kiểm tra va chạm item với player
     private boolean checkItemPlayerCollision(BrickItem item) {
         Rectangle itemRect = new Rectangle(item.x, item.y, 32, 22);
         Rectangle playerRect = new Rectangle(player.x, player.y, player.w, player.h);
         return itemRect.intersects(playerRect);
     }
 
-    // Kích hoạt hiệu ứng item
     public void activeItem(BrickItem item) {
         switch (item.type) {
             case BrickItem.MORE_LIFE:
@@ -180,7 +188,6 @@ public class GamePanel extends JPanel implements Runnable {
                 System.out.println("Nhận thêm mạng! Hiện có: " + player.lifeCount);
                 break;
             case BrickItem.MORE_BALL:
-                // TODO: Thêm bóng mới
                 Ball newBall = new Ball(this, player);
                 newBall.isActive = true;
                 balls.add(newBall);
@@ -197,7 +204,6 @@ public class GamePanel extends JPanel implements Runnable {
                 System.out.println("Bóng chậm lại!");
                 break;
             case BrickItem.BOMB:
-                // TODO: Phá nhiều gạch
                 System.out.println("Boom!");
                 break;
         }
@@ -215,7 +221,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         brick.draw(g2);
 
-        // Vẽ items
         for (BrickItem item : items) {
             if (item.itemActived) {
                 item.draw(g2);
@@ -226,6 +231,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         for (Ball b : balls) {
             b.draw(g2);
+        }
+
+        // Hiển thị text "PAUSED" khi game đang pause
+        if (gameState.getCurrentState() == GameState.State.PAUSE) {
+            PauseState.draw(g2);
         }
 
         g2.dispose();
