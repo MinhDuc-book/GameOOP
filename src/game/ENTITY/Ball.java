@@ -21,6 +21,7 @@ public class Ball extends MovableObject {
     public boolean isActive = false;
     public boolean isRemoved = false;
 
+
     static {
         try {
             image = ImageIO.read(Ball.class.getResourceAsStream("/asset/ball/normalBall.png"));
