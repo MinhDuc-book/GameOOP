@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import game.BACKGROUND.BGManager;
 import game.ENTITY.*;
+import game.GAMESTATE.EndState;
 import game.GAMESTATE.GameState;
 import game.GAMESTATE.PauseState;
 import game.OBJECT.BrickItem;
@@ -126,7 +127,7 @@ public class GamePanel extends JPanel implements Runnable {
                 if (balls.isEmpty()) {
                     player.lifeCount--;
 
-                    System.out.println("Player lost a ball. Remaining life: " + player.lifeCount);
+                    System.out.println("Player lost ball. Remaining life: " + player.lifeCount);
 
                     if (player.lifeCount <= 0) {
                         gameState.setCurrentState(GameState.State.END);
@@ -152,6 +153,23 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                 }
 
+                // === Kiểm tra hết hạn hiệu ứng MULTIBALL ===
+                if (balls.size() > 1) { // chỉ cần kiểm tra khi có nhiều bóng
+                    long currentTime = System.currentTimeMillis();
+
+                    Iterator<Ball> it = balls.iterator();
+                    while (it.hasNext()) {
+                        Ball b = it.next();
+
+                    }
+
+                    // Sau khi xoá, nếu chỉ còn 1 bóng => in thông báo hết hiệu ứng
+                    if (balls.size() == 1) {
+                        System.out.println("Hiệu ứng MULTIBALL đã hết!");
+                    }
+                }
+
+
                 break;
 
             case PAUSE:
@@ -159,15 +177,12 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case MENU:
-                System.out.println("TURN ON MENU");
                 break;
 
             case END:
-                System.out.println("END");
                 break;
 
             case DONE:
-                System.out.println("DONE LEVEL X");
                 break;
 
             default:
@@ -236,6 +251,8 @@ public class GamePanel extends JPanel implements Runnable {
         // Hiển thị text "PAUSED" khi game đang pause
         if (gameState.getCurrentState() == GameState.State.PAUSE) {
             PauseState.draw(g2);
+        } else if (gameState.getCurrentState() == GameState.State.END) {
+            EndState.draw(g2);
         }
 
         g2.dispose();
