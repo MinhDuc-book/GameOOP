@@ -26,6 +26,7 @@ public class Sound {
     public void stop() {
         if (clip != null && clip.isRunning()) {
             clip.stop();
+            clip.setFramePosition(0);
         }
     }
     public void loop() {
