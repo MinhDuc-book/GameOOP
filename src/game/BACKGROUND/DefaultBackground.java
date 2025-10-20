@@ -1,5 +1,6 @@
 package game.BACKGROUND;
 
+import game.GAMESTATE.GameState;
 import game.MAIN.*;
 import game.SOUND.*;
 
@@ -29,6 +30,9 @@ public class DefaultBackground extends JPanel implements MouseListener {
         this.frame = window;
             sound.setSound(soundpath);
             sound.loop();
+    }
+
+    public void getSoundActive() {
     }
 
     public void getSoundActive() {

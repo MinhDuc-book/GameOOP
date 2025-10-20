@@ -47,7 +47,7 @@ public class MenuButton extends GameObject {
         g.drawString(Name, textX, textY);
     }
 
-    public boolean intoBound(int mouseX, int mouseY) {
+    public boolean isClicked(int mouseX, int mouseY) {
         return mouseX >= x && mouseX <= x + w &&
                 mouseY >= y && mouseY <= y + h;
     }

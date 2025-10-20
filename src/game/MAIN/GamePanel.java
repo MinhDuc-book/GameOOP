@@ -37,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
     public EnhancedObject brickItem[] = new EnhancedObject[10];
 
 
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
