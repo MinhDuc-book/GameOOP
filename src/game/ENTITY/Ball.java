@@ -2,6 +2,8 @@ package game.ENTITY;
 
 import game.GAMESTATE.GameState;
 import game.MAIN.GamePanel;
+import game.SOUND.Sound;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,6 +13,7 @@ public class Ball extends MovableObject {
     Player player;
     Brick bricks;
     GameState gameState = new GameState();
+    Sound breakingSound = new Sound();
 
     public int diameter = 20;
     public int speedX, speedY;
@@ -100,6 +103,7 @@ public class Ball extends MovableObject {
         int brickHeight = 30;
 
         Rectangle ballRect = new Rectangle(x, y, diameter, diameter);
+        breakingSound.setSound("/asset/sound/breakingsound.wav");
 
         // Duyệt toàn bộ map
         for (int row = 0; row < map.length; row++) {
@@ -133,10 +137,13 @@ public class Ball extends MovableObject {
                         // --- Giảm độ bền gạch ---
                         if (map[row][col] == 3) {
                             map[row][col] = 3;
+                            breakingSound.playSound();
                         } else if (map[row][col] == 4 || map[row][col] == 5) {
                             map[row][col] = 0;
+                            breakingSound.playSound();
 
                         } else {
+                            breakingSound.playSound();
                             map[row][col]--;
                         }
 
