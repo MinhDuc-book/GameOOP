@@ -42,8 +42,6 @@ public class GamePanel extends JPanel implements Runnable {
     // 60FPS thì khi giữ 1 giây coi như autoclick esc 60 lần -> liên tục chuyển đổi pause và resume -> cần 1 biến để giữ trạng thái
     private boolean escPressedLastFrame = false;  // Để tránh toggle nhiều lần
 
-
-
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
