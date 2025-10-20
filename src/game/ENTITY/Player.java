@@ -52,6 +52,10 @@ public class Player extends MovableObject {
         return this.speed;
     }
 
+    public void setLifeCount(int x) {
+        this.lifeCount = x;
+    }
+
     public void getPlayerImage() {
         try {
             playerImage = ImageIO.read(getClass().getResourceAsStream("/asset/player/Player.png"));
