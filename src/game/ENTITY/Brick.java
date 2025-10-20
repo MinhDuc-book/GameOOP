@@ -29,6 +29,7 @@ public class Brick extends GameObject {
         this.gp = gp;
         brickMap = new int[10][19];
         brick = new Brick[7];
+
         getBrickImage();
         loadBrickMap();
     }
@@ -56,7 +57,6 @@ public class Brick extends GameObject {
             // more lifeCount
             brick[4] = new Brick();
             brick[4].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick4.png"));
-
             //more player size
             brick[5] = new Brick();
             brick[5].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick5.png"));

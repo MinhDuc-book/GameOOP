@@ -92,5 +92,6 @@ public class BrickItem extends GameObject {
         if (img != null) {
             g2.drawImage(img, x, y, 32, 22, null);
         }
+
     }
 }

@@ -155,6 +155,7 @@ public class Ball extends MovableObject {
         }
     }
 
+    // check = true when have any brick with brick_id != 3
     private boolean isAllBricksDestroyed() {
         int[][] map = gp.brick.brickMap;
         boolean check = true;
