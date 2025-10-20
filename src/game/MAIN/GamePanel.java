@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import game.BACKGROUND.BGManager;
 import game.ENTITY.*;
+import game.GAMESTATE.DoneState;
 import game.GAMESTATE.EndState;
 import game.GAMESTATE.GameState;
 import game.GAMESTATE.PauseState;
@@ -130,7 +131,7 @@ public class GamePanel extends JPanel implements Runnable {
                     System.out.println("Player lost ball. Remaining life: " + player.lifeCount);
 
                     if (player.lifeCount <= 0) {
-                        gameState.setCurrentState(GameState.State.END);
+                        gameState.setCurrentState(GameState.State.END); //thua
                     } else {
                         Ball newBall = new Ball(this, player);
                         newBall.isActive = false;
@@ -153,27 +154,7 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                 }
 
-                // === Kiểm tra hết hạn hiệu ứng MULTIBALL ===
-                if (balls.size() > 1) { // chỉ cần kiểm tra khi có nhiều bóng
-                    long currentTime = System.currentTimeMillis();
 
-                    Iterator<Ball> it = balls.iterator();
-                    while (it.hasNext()) {
-                        Ball b = it.next();
-
-                    }
-
-                    // Sau khi xoá, nếu chỉ còn 1 bóng => in thông báo hết hiệu ứng
-                    if (balls.size() == 1) {
-                        System.out.println("Hiệu ứng MULTIBALL đã hết!");
-                    }
-                }
-
-
-                break;
-
-            case PAUSE:
-                // Không update gì cả khi pause
                 break;
 
             case MENU:
@@ -183,6 +164,7 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case DONE:
+
                 break;
 
             default:
@@ -212,10 +194,6 @@ public class GamePanel extends JPanel implements Runnable {
                 player.activateBigMode();
                 break;
             case BrickItem.SLOW_BALL:
-                for (Ball b : balls) {
-                    b.speedX = b.speedX > 0 ? 2 : -2;
-                    b.speedY = b.speedY > 0 ? 2 : -2;
-                }
                 System.out.println("Bóng chậm lại!");
                 break;
             case BrickItem.BOMB:
@@ -248,11 +226,12 @@ public class GamePanel extends JPanel implements Runnable {
             b.draw(g2);
         }
 
-        // Hiển thị text "PAUSED" khi game đang pause
         if (gameState.getCurrentState() == GameState.State.PAUSE) {
             PauseState.draw(g2);
         } else if (gameState.getCurrentState() == GameState.State.END) {
             EndState.draw(g2);
+        } else if (gameState.getCurrentState() == GameState.State.DONE) {
+            DoneState.draw(g2);
         }
 
         g2.dispose();
