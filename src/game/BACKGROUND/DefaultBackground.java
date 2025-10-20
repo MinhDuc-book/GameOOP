@@ -32,13 +32,6 @@ public class DefaultBackground extends JPanel implements MouseListener {
             sound.loop();
     }
 
-    public void getSoundActive() {
-    }
-
-    public void getSoundActive() {
-    }
-
-
     @Override
     protected void paintComponent(Graphics g) {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
