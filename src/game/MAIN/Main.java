@@ -1,5 +1,6 @@
 package game.MAIN;
 import game.BACKGROUND.DefaultBackground;
+import game.HIGHSCORE.HighscoreManager;
 import javax.swing.*;
 
 public class Main {
@@ -19,6 +20,9 @@ public class Main {
 
         gamePanel.setupGame();
         gamePanel.startGameThread();
+
+        HighscoreManager.displayHighscores();
+
 
     }
 
