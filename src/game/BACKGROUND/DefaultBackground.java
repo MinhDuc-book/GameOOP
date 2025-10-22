@@ -3,6 +3,7 @@ package game.BACKGROUND;
 import game.GAMESTATE.GameState;
 import game.MAIN.*;
 import game.SOUND.*;
+import game.HIGHSCORE.HighscorePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,10 +97,18 @@ public class DefaultBackground extends JPanel implements MouseListener {
 
     }
         else if (scoreBtn.isClicked(mouseX, mouseY)) {
-            showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
-            // TODO: hiển thị bảng điểm
+
+            HighscorePanel highscorePanel = new HighscorePanel(frame, () -> {
+                // Quay lại menu chính
+                frame.setContentPane(this); // this = DefaultBackground
+                frame.revalidate();
+            });
+
+            frame.setContentPane(highscorePanel);
+            frame.revalidate();
         }
+
     }
 
 

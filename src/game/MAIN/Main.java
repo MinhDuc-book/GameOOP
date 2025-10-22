@@ -20,10 +20,6 @@ public class Main {
 
         gamePanel.setupGame();
         gamePanel.startGameThread();
-
-        HighscoreManager.displayHighscores();
-
-
     }
 
 }

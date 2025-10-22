@@ -94,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable {
                 player.update();
 
                 for (Ball b : balls) {
-                    if (b.isActive == false && keyH.spacePressed) {
+                    if (!b.isActive && keyH.spacePressed) {
                         b.isActive = true;
                     }
                     b.update();
