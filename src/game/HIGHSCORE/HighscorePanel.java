@@ -18,7 +18,7 @@ public class HighscorePanel extends JPanel {
         scoreArea.setBackground(Color.BLACK);
 
         List<ScoreEntry> scores = FileHandler.loadScores();
-        StringBuilder sb = new StringBuilder("🏆 Top 5 Highscores:\n\n");
+        StringBuilder sb = new StringBuilder("Top 5 Highscores:\n\n");
         for (int i = 0; i < scores.size(); i++) {
             ScoreEntry entry = scores.get(i);
             sb.append(String.format("%d. %s - %d\n", i + 1, entry.getPlayerName(), entry.getScore()));

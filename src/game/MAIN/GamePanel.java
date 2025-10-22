@@ -24,6 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
         return SCREEN_HEIGHT;
     }
 
+    public int score = 0;
+
 
     public BGManager bgManager = new BGManager(this);
     public Brick brick = new Brick(this);
@@ -98,6 +100,7 @@ public class GamePanel extends JPanel implements Runnable {
                         b.isActive = true;
                     }
                     b.update();
+
                 }
                 break;
 
@@ -144,5 +147,10 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         g2.dispose();
+
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        g2.drawString("Score: " + score, 20, 30);
+
     }
 }
