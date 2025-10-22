@@ -1,23 +1,52 @@
-    package game.GAMESTATE;
+package game.GAMESTATE;
 
-    public class GameState {
+import java.awt.event.MouseEvent;
+import game.MAIN.GamePanel;
 
-        public enum State {
-            MENU, PLAY, PAUSE, END, DONE
-        }
+public class GameState {
 
-        private State currentState;
-
-        public GameState() {
-            currentState = State.MENU;
-        }
-
-        public void setCurrentState(State state) {
-            this.currentState = state;
-        }
-
-        public State getCurrentState() {
-            return currentState;
-        }
-
+    public enum State {
+        MENU, PLAY, PAUSE, END, DONE
     }
+
+    private State currentState;
+    private GamePanel gp;
+
+    // Nhận GamePanel để có thể gọi lại restartGame(), v.v
+    public GameState(GamePanel gp) {
+        this.gp = gp;
+        currentState = State.MENU;
+    }
+
+    public void setCurrentState(State state) {
+        this.currentState = state;
+    }
+
+    public State getCurrentState() {
+        return currentState;
+    };
+
+
+    // Hàm xử lý chuột cho từng trạng thái
+    public void mousePressed(MouseEvent e) {
+        switch (currentState) {
+            case DONE:
+                DoneState doneState = new DoneState(gp);
+                doneState.mousePressed(e);
+                break;
+
+            case END:
+                EndState endState = new EndState(gp);
+                endState.mousePressed(e);
+                break;
+
+            case PAUSE:
+                PauseState pauseState = new PauseState(gp);
+                pauseState.mousePressed(e);
+                break;
+
+            default:
+                break;
+        }
+    }
+}

@@ -128,4 +128,11 @@ public class Player extends MovableObject {
             g2.drawString("BIG: " + (seconds + 1) + "s", x + w/2 - 20, y - 5);
         }
     }
+    public void reset() {
+        this.x = GamePanel.SCREEN_WIDTH / 2 - this.normalWidth / 2;
+        this.w = normalWidth;
+        this.lifeCount = 3; // hoặc giá trị mặc định
+        this.isBigMode = false;
+        this.bigModeStartTime = 0;
+    }
 }

@@ -2,20 +2,22 @@ package game.MAIN;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import game.BACKGROUND.BGManager;
-import game.ENTITY.*;
-import game.GAMESTATE.DoneState;
-import game.GAMESTATE.EndState;
-import game.GAMESTATE.GameState;
-import game.GAMESTATE.PauseState;
+import game.ENTITY.Ball;
+import game.ENTITY.Brick;
+import game.ENTITY.Player;
+import game.GAMESTATE.*;
 import game.OBJECT.BrickItem;
-import game.OBJECT.EnhancedObject;
-import game.OBJECT.LifeCount;
+import game.OBJECT.LifeCount;;
 
-public class GamePanel extends JPanel implements Runnable {
+
+public class GamePanel extends JPanel implements Runnable, MouseListener {
     public static final int SCREEN_WIDTH = 600;
     public static final int SCREEN_HEIGHT = 700;
 
@@ -28,13 +30,15 @@ public class GamePanel extends JPanel implements Runnable {
         return SCREEN_HEIGHT;
     }
 
+
+
     public BGManager bgManager = new BGManager(this);
     public Brick brick = new Brick(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread = new Thread(this);
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
-    public GameState gameState = new GameState();
+    public GameState gameState = new GameState(this);
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
     public ArrayList<BrickItem> items = new ArrayList<>();
@@ -48,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        this.addMouseListener(this); // them phan tuong tac voi chuot.
         setupGame();
     }
 
@@ -236,4 +241,41 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.dispose();
     }
+    public void restartGame() {
+        // Reset các thành phần
+        balls.clear();
+        items.clear();
+        player.reset(); // bạn cần thêm phương thức reset() trong lớp Player
+        brick.reset();  // bạn cần thêm phương thức reset() trong lớp Brick
+        setupGame(); // khởi tạo lại bóng, vật phẩm, trạng thái
+        gameState.setCurrentState(GameState.State.PLAY);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        gameState.mousePressed(e);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+
+
 }

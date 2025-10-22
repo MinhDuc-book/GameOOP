@@ -1,12 +1,14 @@
 package game.GAMESTATE;
 
+import game.BACKGROUND.DefaultBackground;
+import game.BACKGROUND.MenuButton;
 import game.MAIN.GamePanel;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class DoneState {
     private GamePanel gp;
-
     public DoneState(GamePanel gp) {
         this.gp = gp;
     }
@@ -21,5 +23,23 @@ public class DoneState {
         String pauseText = "WELL DONE";
         int textWidth = g2.getFontMetrics().stringWidth(pauseText);
         g2.drawString(pauseText, (GamePanel.SCREEN_WIDTH - textWidth) / 2, GamePanel.SCREEN_HEIGHT / 2);
+        MenuButton.getReplayButton().draw(g2);
+        MenuButton.getExitButton().draw(g2);
     }
+
+    public void mousePressed(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+
+        if (MenuButton.getReplayButton().intoBound(mouseX, mouseY)) {
+            System.out.println("Replay clicked");
+            gp.restartGame();
+        }
+        else if (MenuButton.getExitButton().intoBound(mouseX, mouseY)) {
+            System.out.println("Exit clicked");
+            System.exit(0); // Thoát game
+        }
+    }
+
+
 }
