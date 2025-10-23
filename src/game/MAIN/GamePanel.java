@@ -1,5 +1,6 @@
 package game.MAIN;
 
+import javax.naming.Name;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class GamePanel extends JPanel implements Runnable {
     public static int getSreenHeight () {
         return SCREEN_HEIGHT;
     }
+
+    public int score = 0;
+
 
     public BGManager bgManager = new BGManager(this);
     public Brick brick = new Brick(this);
@@ -121,6 +125,7 @@ public class GamePanel extends JPanel implements Runnable {
                     }
 
                     b.update();
+
 
                     if (b.isRemoved) {
                         ballIterator.remove();
@@ -236,6 +241,13 @@ public class GamePanel extends JPanel implements Runnable {
             DoneState.draw(g2);
         }
 
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        g2.drawString("Score: " + score, 20, 30);
+
         g2.dispose();
+
+
+
     }
 }

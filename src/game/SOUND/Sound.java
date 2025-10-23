@@ -1,7 +1,6 @@
 package game.SOUND;
 
 import javax.sound.sampled.*;
-import java.io.IOException;
 import java.io.InputStream;
 
 public class Sound {
@@ -19,7 +18,6 @@ public class Sound {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(is);
             this.clip = AudioSystem.getClip();
             this.clip.open(audioInputStream);
-            this.clip.start();
 
         } catch (Exception e) {
             throw new RuntimeException("error when start sound.");
@@ -28,11 +26,17 @@ public class Sound {
     public void stop() {
         if (clip != null && clip.isRunning()) {
             clip.stop();
+            clip.setFramePosition(0);
         }
     }
     public void loop() {
         if (this.clip != null) {
             this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+    }
+    public void playSound() {
+        if (this.clip != null) {
+            this.clip.start();
         }
     }
 
