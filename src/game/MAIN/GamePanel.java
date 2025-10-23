@@ -40,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     LifeCount lifeCount = new LifeCount(this, player);
     public EnhancedObject brickItem[] = new EnhancedObject[10];
     public BrickItem items = new BrickItem();
+    public int score = 0;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
