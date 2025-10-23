@@ -12,10 +12,9 @@ public class GameState {
     private State currentState;
     private GamePanel gp;
 
-    // Nhận GamePanel để có thể gọi lại restartGame(), v.v
-    public GameState() {
+    public GameState(GamePanel gp) {
         this.gp = gp;
-        currentState = State.MENU;
+        this.currentState = State.MENU;
     }
 
     public void setCurrentState(State state) {
@@ -34,17 +33,14 @@ public class GameState {
                 DoneState doneState = new DoneState(gp);
                 doneState.mousePressed(e);
                 break;
-
             case END:
                 EndState endState = new EndState(gp);
                 endState.mousePressed(e);
                 break;
-
             case PAUSE:
                 PauseState pauseState = new PauseState(gp);
                 pauseState.mousePressed(e);
                 break;
-
             default:
                 break;
         }

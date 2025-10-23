@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     Thread gameThread = new Thread(this);
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
-    public GameState gameState = new GameState();
+    public GameState gameState = new GameState(this);
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
     public EnhancedObject brickItem[] = new EnhancedObject[10];
