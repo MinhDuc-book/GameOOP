@@ -11,6 +11,7 @@ import game.GAMESTATE.DoneState;
 import game.GAMESTATE.EndState;
 import game.GAMESTATE.GameState;
 import game.GAMESTATE.PauseState;
+import game.HIGHSCORE.Highscore;
 import game.OBJECT.BrickItem;
 import game.OBJECT.EnhancedObject;
 import game.OBJECT.LifeCount;
@@ -20,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int SCREEN_HEIGHT = 700;
 
     int FPS = 60;
+    public int score = 0;
 
     public static int getSreenWidth() {
         return SCREEN_WIDTH;
@@ -161,10 +163,10 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case END:
+                Highscore.writeFile();
                 break;
 
             case DONE:
-
                 break;
 
             default:

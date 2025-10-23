@@ -126,6 +126,8 @@ public class Ball extends MovableObject {
                         } else if (map[row][col] == 4) {
                             int itemType = map[row][col];
                             map[row][col] = 0;
+                            gp.score += 100;
+                            System.out.println("Điểm hiện tại:" + gp.score);
 
                             BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
                             gp.items.add(newItem);
@@ -133,12 +135,16 @@ public class Ball extends MovableObject {
                         } else if (map[row][col] == 5) {
                             int itemType = map[row][col];
                             map[row][col] = 0;
+                            gp.score += 100;
+                            System.out.println("Điểm hiện tại:" + gp.score);
 
                             BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
                             gp.items.add(newItem);
                         } else if (map[row][col] == 6) {
                             int itemType = map[row][col];
                             map[row][col] = 0;
+                            gp.score += 100; // add 100
+                            System.out.println("Điểm hiện tại:" + gp.score);
 
                             BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
                             gp.items.add(newItem);
@@ -146,6 +152,8 @@ public class Ball extends MovableObject {
 
                         else {
                             map[row][col]--;
+                            gp.score += 50; // add 50 ponit
+                            System.out.println("Điểm hiện tại:" + gp.score);
                         }
 
                         return;
