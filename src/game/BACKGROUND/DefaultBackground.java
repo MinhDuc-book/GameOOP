@@ -17,23 +17,19 @@ import static game.BACKGROUND.MenuButton.*;
 public class DefaultBackground extends JPanel implements MouseListener {
     private Image image;
     private JFrame  frame;
-    private String soundpath = "/asset/sound/game-music-loop-7-145285.wav";
+    private static String soundpath = "/asset/sound/game-music-loop-7-145285.wav";
     private Sound sound = new Sound();;
     private boolean showScore = false;
-    private boolean soundactived = false;
 
     public DefaultBackground(String imagePath, JFrame window) {
         image = new ImageIcon(getClass().getClassLoader().getResource(imagePath)).getImage();
         setPreferredSize(new Dimension(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()));
         addMouseListener(this);
         this.frame = window;
-        soundpath = "/asset/sound/game-music-loop-7-145285.wav";
-        if (!soundactived) {
             Sound sound = new Sound();
             sound.setSound(soundpath);
-            soundactived = true;
             sound.loop();
-        }
+
     }
 
     public void getSoundActive() {
@@ -62,7 +58,6 @@ public class DefaultBackground extends JPanel implements MouseListener {
         }
 
         else if (getStartButton().intoBound(mouseX, mouseY)) {
-            sound.stop();
             System.out.println("Bắt đầu trò chơi!");
             GamePanel gamePanel = new GamePanel(); // Khởi tạo GamePanel
             frame.getContentPane().add(gamePanel); // Thêm vào JFrame
@@ -71,6 +66,7 @@ public class DefaultBackground extends JPanel implements MouseListener {
             frame.setSize(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()+50);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+            sound.stop();
              // Gắn KeyListener vào gamePanel
             KeyHandler keyH = new KeyHandler();
             gamePanel.addKeyListener(keyH);

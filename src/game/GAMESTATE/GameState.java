@@ -13,7 +13,7 @@ public class GameState {
     private GamePanel gp;
 
     // Nhận GamePanel để có thể gọi lại restartGame(), v.v
-    public GameState(GamePanel gp) {
+    public GameState() {
         this.gp = gp;
         currentState = State.MENU;
     }

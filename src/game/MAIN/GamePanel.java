@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
     public EnhancedObject brickItem[] = new EnhancedObject[10];
-    public BrickItem items = new BrickItem();
+    public ArrayList<BrickItem> items = new ArrayList<>();
     public int score = 0;
 
     public GamePanel() {
