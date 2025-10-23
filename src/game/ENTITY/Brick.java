@@ -15,6 +15,7 @@ public class Brick extends GameObject {
     // yellow -> 2 times -> 2
     // silver -> cannot break -> 3
     // blue -> more lifeCount -> 4
+    // pink -> player Size -> 5
 
     GamePanel gp;
     Brick brick[];
@@ -22,11 +23,12 @@ public class Brick extends GameObject {
     public BufferedImage brickImage;
     int brickMap[][];
     public int countLife;
+    public boolean isBroke = false;
 
     public Brick(GamePanel gp) {
         this.gp = gp;
         brickMap = new int[10][19];
-        brick = new Brick[5];
+        brick = new Brick[7];
         getBrickImage();
         loadBrickMap();
     }
@@ -54,6 +56,14 @@ public class Brick extends GameObject {
             // more lifeCount
             brick[4] = new Brick();
             brick[4].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick4.png"));
+
+            //more player size
+            brick[5] = new Brick();
+            brick[5].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick5.png"));
+
+            //more ball
+            brick[6] = new Brick();
+            brick[6].brickImage = ImageIO.read(getClass().getResourceAsStream("/asset/brick/Brick6.png"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -99,6 +109,10 @@ public class Brick extends GameObject {
                     g2.drawImage(brick[3].brickImage, j*30, i*30, 30, 30, null);
                 } else if (brickMap[i][j] == 4) {
                     g2.drawImage(brick[4].brickImage, j*30, i*30, 30, 30, null);
+                } else if (brickMap[i][j] == 5) {
+                    g2.drawImage(brick[5].brickImage, j*30, i*30, 30, 30, null);
+                } else if (brickMap[i][j] == 6) {
+                    g2.drawImage(brick[6].brickImage, j*30, i*30, 30, 30, null);
                 }
             }
         }
