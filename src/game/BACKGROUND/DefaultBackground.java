@@ -18,7 +18,7 @@ public class DefaultBackground extends JPanel implements MouseListener {
     private Image image;
     private JFrame  frame;
     private static String soundpath = "/asset/sound/game-music-loop-7-145285.wav";
-    private Sound sound = new Sound();;
+    private Sound sound = new Sound();
     private boolean showScore = false;
 
     public DefaultBackground(String imagePath, JFrame window) {
@@ -26,7 +26,6 @@ public class DefaultBackground extends JPanel implements MouseListener {
         setPreferredSize(new Dimension(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()));
         addMouseListener(this);
         this.frame = window;
-            Sound sound = new Sound();
             sound.setSound(soundpath);
             sound.loop();
 
