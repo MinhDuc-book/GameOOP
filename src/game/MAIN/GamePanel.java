@@ -245,8 +245,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         // Reset các thành phần
         balls.clear();
         items.clear();
-        player.reset(); // bạn cần thêm phương thức reset() trong lớp Player
-        brick.reset();  // bạn cần thêm phương thức reset() trong lớp Brick
+        player.reset();
+        brick.reset();
         setupGame(); // khởi tạo lại bóng, vật phẩm, trạng thái
         gameState.setCurrentState(GameState.State.PLAY);
     }
