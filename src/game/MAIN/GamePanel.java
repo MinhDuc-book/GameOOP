@@ -2,25 +2,19 @@ package game.MAIN;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import game.BACKGROUND.BGManager;
-import game.ENTITY.Ball;
-import game.ENTITY.Brick;
-import game.ENTITY.Player;
-import game.GAMESTATE.*;
-import game.OBJECT.BrickItem;
-import game.OBJECT.LifeCount;;
+import game.ENTITY.*;
+import game.GAMESTATE.GameState;
+import game.OBJECT.EnhancedObject;
+import game.OBJECT.LifeCount;
 
-
-public class GamePanel extends JPanel implements Runnable, MouseListener {
+public class GamePanel extends JPanel implements Runnable {
     public static final int SCREEN_WIDTH = 600;
     public static final int SCREEN_HEIGHT = 700;
 
+    //FPS
     int FPS = 60;
 
     public static int getSreenWidth() {
@@ -31,20 +25,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     }
 
 
-
     public BGManager bgManager = new BGManager(this);
     public Brick brick = new Brick(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread = new Thread(this);
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
-    public GameState gameState = new GameState(this);
+    public GameState gameState = new GameState();
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
-    public ArrayList<BrickItem> items = new ArrayList<>();
-
-    // 60FPS thì khi giữ 1 giây coi như autoclick esc 60 lần -> liên tục chuyển đổi pause và resume -> cần 1 biến để giữ trạng thái
-    private boolean escPressedLastFrame = false;  // Để tránh toggle nhiều lần
+    public EnhancedObject brickItem[] = new EnhancedObject[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -52,7 +42,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-        this.addMouseListener(this); // them phan tuong tac voi chuot.
         setupGame();
     }
 
@@ -74,7 +63,7 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 
         while (gameThread != null) {
 
-            double drawInterval = 1000000000/FPS;
+            double drawInterval = 1000000000/FPS; // about 0.166667 second
             double nextDrawTime = System.nanoTime() + drawInterval;
 
             update();
@@ -163,13 +152,15 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
                 break;
 
             case MENU:
+                System.out.println("TURN ON MENU");
                 break;
 
             case END:
+                System.out.println("END");
                 break;
 
             case DONE:
-
+                System.out.println("DONE LEVEL X");
                 break;
 
             default:
@@ -211,9 +202,16 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        //convert g to g2 for drawing 2D
         Graphics2D g2 = (Graphics2D)g;
 
         bgManager.draw(g2);
+
+        for (int i = 0; i < brickItem.length; ++i) {
+            if (brickItem[i] != null) {
+                brickItem[i].draw(g2, this);
+            }
+        }
 
         player.draw(g2);
 
@@ -240,6 +238,11 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
         }
 
         g2.dispose();
+
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        g2.drawString("Score: " + score, 20, 30);
+
     }
     public void restartGame() {
         // Reset các thành phần

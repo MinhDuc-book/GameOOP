@@ -3,6 +3,7 @@ package game.BACKGROUND;
 import game.GAMESTATE.GameState;
 import game.MAIN.*;
 import game.SOUND.*;
+import game.HIGHSCORE.HighscorePanel;
 import game.BACKGROUND.MenuButton;
 
 import javax.swing.*;
@@ -19,14 +20,24 @@ public class DefaultBackground extends JPanel implements MouseListener {
     private String soundpath = "/asset/sound/game-music-loop-7-145285.wav";
     private Sound sound = new Sound();;
     private boolean showScore = false;
+
     public DefaultBackground(String imagePath, JFrame window) {
         image = new ImageIcon(getClass().getClassLoader().getResource(imagePath)).getImage();
         setPreferredSize(new Dimension(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()));
         addMouseListener(this);
         this.frame = window;
+        soundpath = "/asset/sound/game-music-loop-7-145285.wav";
+        if (!soundactived) {
+            Sound sound = new Sound();
             sound.setSound(soundpath);
+            soundactived = true;
             sound.loop();
+        }
     }
+
+    public void getSoundActive() {
+    }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -46,6 +57,7 @@ public class DefaultBackground extends JPanel implements MouseListener {
                 getInstructionButton().toggleInstructions();// đảo trạng thái
                 repaint();
             }
+
         }
 
         else if (getStartButton().intoBound(mouseX, mouseY)) {
@@ -69,7 +81,15 @@ public class DefaultBackground extends JPanel implements MouseListener {
         else if (getScoreButton().intoBound(mouseX, mouseY)) {
             showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
-            // TODO: hiển thị bảng điểm
+
+            HighscorePanel highscorePanel = new HighscorePanel(frame, () -> {
+                // Quay lại menu chính
+                frame.setContentPane(this); // this = DefaultBackground
+                frame.revalidate();
+            });
+
+            frame.setContentPane(highscorePanel);
+            frame.revalidate();
         }
     }
 
