@@ -2,15 +2,19 @@ package game.MAIN;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import game.BACKGROUND.BGManager;
 import game.ENTITY.*;
-import game.GAMESTATE.GameState;
+import game.GAMESTATE.*;
+import game.OBJECT.BrickItem;
 import game.OBJECT.EnhancedObject;
 import game.OBJECT.LifeCount;
-
-public class GamePanel extends JPanel implements Runnable {
+import game.HIGHSCORE.*;
+public class GamePanel extends JPanel implements Runnable, MouseListener {
     public static final int SCREEN_WIDTH = 600;
     public static final int SCREEN_HEIGHT = 700;
 
@@ -35,6 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
     public EnhancedObject brickItem[] = new EnhancedObject[10];
+    public BrickItem items = new BrickItem();
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -89,6 +94,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         // Xử lý toggle pause/play khi nhấn ESC
+        boolean escPressedLastFrame = false;
+
         if (keyH.escPressed && !escPressedLastFrame) {
             if (gameState.getCurrentState() == GameState.State.PLAY) {
                 gameState.setCurrentState(GameState.State.PAUSE);
@@ -99,6 +106,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
         escPressedLastFrame = keyH.escPressed;
+
 
         switch (gameState.getCurrentState()) {
             case PLAY:
