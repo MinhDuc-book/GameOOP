@@ -13,7 +13,7 @@ public class PauseState {
     public static void draw(Graphics2D g2) {
         // Vẽ overlay màu đen trong suốt
         g2.setColor(new Color(0, 0, 0, 150));
-        g2.fillRect(0, 0, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT);
+        g2.fillRect(0, 0, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT + 50);
 
         // Vẽ text "PAUSED"
         g2.setColor(Color.WHITE);

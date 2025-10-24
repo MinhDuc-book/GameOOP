@@ -13,7 +13,7 @@ public class EndState {
 
     public static void draw(Graphics2D g2) {
         g2.setColor(new Color(0, 0, 0, 250));
-        g2.fillRect(0, 0, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT + 20);
+        g2.fillRect(0, 0, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT + 50);
 
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 48));

@@ -12,7 +12,6 @@ import game.GAMESTATE.DoneState;
 import game.GAMESTATE.EndState;
 import game.GAMESTATE.GameState;
 import game.GAMESTATE.PauseState;
-import game.HIGHSCORE.Highscore;
 import game.OBJECT.BrickItem;
 import game.OBJECT.EnhancedObject;
 import game.OBJECT.LifeCount;
@@ -30,9 +29,6 @@ public class GamePanel extends JPanel implements Runnable {
     public static int getSreenHeight () {
         return SCREEN_HEIGHT;
     }
-
-    public int score = 0;
-
 
     public BGManager bgManager = new BGManager(this);
     public Brick brick = new Brick(this);
@@ -168,7 +164,6 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case END:
-                Highscore.writeFile();
                 break;
 
             case DONE:
