@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class FileHandler {
-    private static final String FILE_NAME = "D:\\OOP\\src\\asset\\highscore\\highscore.txt";
+    private static final String FILE_NAME = "src/asset/highscore/highscore.txt";
 
     public static List<ScoreEntry> loadScores() {
         List<ScoreEntry> scores = new ArrayList<>();
