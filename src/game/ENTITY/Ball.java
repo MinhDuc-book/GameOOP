@@ -3,6 +3,7 @@ package game.ENTITY;
 import game.GAMESTATE.GameState;
 import game.MAIN.GamePanel;
 import game.OBJECT.BrickItem;
+import game.SOUND.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,7 +15,8 @@ public class Ball extends MovableObject {
     Player player;
     Brick bricks;
     GameState gameState;
-
+    Sound breakingSound = new Sound();
+    Sound metalSound = new Sound();
 
     public int diameter = 20;
     public int speedX, speedY;
@@ -30,7 +32,6 @@ public class Ball extends MovableObject {
             throw new RuntimeException(e);
         }
     }
-
     public Ball(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
@@ -78,6 +79,8 @@ public class Ball extends MovableObject {
     private void checkCollisionWithPlayer() {
         Rectangle ballRect = new Rectangle(x, y, diameter, diameter);
         Rectangle playerRect = new Rectangle(player.x, player.y, player.w, player.h);
+        breakingSound.setSound("/asset/sound/breakingsound.wav");
+        metalSound.setSound("/asset/sound/metal sound.wav");
 
         if (ballRect.intersects(playerRect)) {
             y = player.y - diameter;
@@ -123,8 +126,9 @@ public class Ball extends MovableObject {
                         }
 
                         if (map[row][col] == 3) {
-                            map[row][col] = 3;
+                            metalSound.playSound();
                         } else if (map[row][col] == 4) {
+                            breakingSound.playSound();
                             int itemType = map[row][col];
                             map[row][col] = 0;
                             gp.score += 100;
@@ -134,6 +138,7 @@ public class Ball extends MovableObject {
                             gp.items.add(newItem);
 
                         } else if (map[row][col] == 5) {
+                            breakingSound.playSound();
                             int itemType = map[row][col];
                             map[row][col] = 0;
                             gp.score += 100;
@@ -142,6 +147,7 @@ public class Ball extends MovableObject {
                             BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
                             gp.items.add(newItem);
                         } else if (map[row][col] == 6) {
+                            breakingSound.playSound();
                             int itemType = map[row][col];
                             map[row][col] = 0;
                             gp.score += 100; // add 100
@@ -153,6 +159,7 @@ public class Ball extends MovableObject {
 
                         else {
                             map[row][col]--;
+                            breakingSound.playSound();
                             gp.score += 50; // add 50 ponit
                             System.out.println("Điểm hiện tại:" + gp.score);
                         }
