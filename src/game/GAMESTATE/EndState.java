@@ -22,6 +22,7 @@ public class EndState {
         String pauseText = "GAME OVER";
         int textWidth = g2.getFontMetrics().stringWidth(pauseText);
         g2.drawString(pauseText, (GamePanel.SCREEN_WIDTH - textWidth) / 2, GamePanel.SCREEN_HEIGHT / 2);
+        MenuButton.getExitButton().draw(g2);
     }
 
     public void mousePressed(MouseEvent e) {
@@ -30,6 +31,7 @@ public class EndState {
 
             if (MenuButton.getReplayButton().intoBound(mouseX, mouseY)) {
                 System.out.println("Replay clicked");
+                gp.gameState.setCurrentState(GameState.State.END);
             }
     }
 }

@@ -42,6 +42,7 @@ public class GameState {
                 pauseState.mousePressed(e);
                 break;
             default:
+
                 break;
         }
     }
