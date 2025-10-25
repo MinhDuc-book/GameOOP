@@ -13,7 +13,8 @@ public class Ball extends MovableObject {
     GamePanel gp;
     Player player;
     Brick bricks;
-    GameState gameState = new GameState();
+    GameState gameState;
+
 
     public int diameter = 20;
     public int speedX, speedY;
