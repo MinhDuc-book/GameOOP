@@ -33,7 +33,6 @@ public class DoneState {
 
         if (MenuButton.getReplayButton().intoBound(mouseX, mouseY)) {
             System.out.println("Replay clicked");
-            gp.restartGame();
         }
         else if (MenuButton.getExitButton().intoBound(mouseX, mouseY)) {
             System.out.println("Exit clicked");
