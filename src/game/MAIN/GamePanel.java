@@ -95,6 +95,38 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void resetGame() {
+        // reset score and player lives
+        score = 0;
+        player.lifeCount = 1;
+
+        // reset / recreate bricks and items
+        items.clear();
+        brick = new Brick(this);
+
+        // reset player position (centered above bottom) if fields exist
+        try {
+            player.x = (SCREEN_WIDTH - player.w) / 2;
+            player.y = SCREEN_HEIGHT - player.h - 20;
+        } catch (Exception ignored) {}
+
+        // clear balls and add a single initial ball (not active)
+        balls.clear();
+        Ball initBall = new Ball(this, player);
+        initBall.isActive = false;
+        balls.add(initBall);
+
+        // re-place objects for the level
+        try {
+            aSetter.setObject();
+        } catch (Exception e) {
+            System.out.println("Warning: aSetter.setObject() failed during reset: " + e.getMessage());
+        }
+
+        // go to play state
+        gameState.setCurrentState(GameState.State.PLAY);
+    }
+
     public void update() {
         // Xử lý toggle pause/play khi nhấn ESC
         if (keyH.escPressed && !escPressedLastFrame) {
@@ -164,9 +196,15 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case END:
+                if (keyH.escPressed) {
+                    resetGame();
+                }
                 break;
 
             case DONE:
+                if (keyH.escPressed) {
+                    resetGame();
+                }
                 break;
 
             default:
