@@ -30,7 +30,6 @@ public class EndState {
 
             if (MenuButton.getReplayButton().intoBound(mouseX, mouseY)) {
                 System.out.println("Replay clicked");
-                gp.restartGame();
             }
     }
 }
