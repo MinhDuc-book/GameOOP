@@ -14,14 +14,14 @@ public class BGManager {
 
     public BGManager(GamePanel gp) {
         this.gp = gp;
-        bg = new Background[10];
+        bg = new Background[4];
         getBGImage();
     }
 
     public void getBGImage() {
         try {
             bg[0] = new Background();
-            bg[0].image = ImageIO.read(getClass().getResourceAsStream("/asset/background/Background.png"));
+            bg[0].image = ImageIO.read(getClass().getResourceAsStream("/asset/background/background.jpg"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -29,11 +29,7 @@ public class BGManager {
 
     public void draw(Graphics2D g2) {
 
-        for (int i = 0; i < gp.SCREEN_WIDTH; i = i + 30) {
-            for (int j = 0; j < gp.SCREEN_HEIGHT; j = j + 30) {
-                g2.drawImage(bg[0].image, i, j, 30, 30, null);
-            }
-        }
+        g2.drawImage(bg[0].image, 0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT, null);
 
     }
 }
