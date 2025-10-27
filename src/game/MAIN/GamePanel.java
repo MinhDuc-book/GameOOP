@@ -9,6 +9,8 @@ import game.ENTITY.*;
 import game.GAMESTATE.GameState;
 import game.OBJECT.EnhancedObject;
 import game.OBJECT.LifeCount;
+import game.HIGHSCORE.HighscoreManager;
+
 
 public class GamePanel extends JPanel implements Runnable {
     public static final int SCREEN_WIDTH = 600;
@@ -110,6 +112,8 @@ public class GamePanel extends JPanel implements Runnable {
 
             case END:
                 System.out.println("END");
+                HighscoreManager.saveScore(score);
+                HighscoreManager.displayHighscores();
                 break;
 
             case DONE:

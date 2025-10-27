@@ -4,32 +4,28 @@ import java.io.*;
 import java.util.*;
 
 public class FileHandler {
-    private static final String FILE_NAME = "src/asset/highscore/highscore.txt";
+    private static final String FILE_PATH = "highscores.txt";
 
-    public static List<ScoreEntry> loadScores() {
-        List<ScoreEntry> scores = new ArrayList<>();
-        File file = new File(FILE_NAME);
-        if (!file.exists()) return scores;
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+    public static List<Integer> loadScores() {
+        List<Integer> scores = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                scores.add(ScoreEntry.fromString(line.trim()));
+                scores.add(Integer.parseInt(line.trim()));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("No highscore file found, starting fresh.");
         }
         return scores;
     }
 
-    public static void saveScores(List<ScoreEntry> scores) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
-            for (ScoreEntry entry : scores) {
-                writer.write(entry.toString());
-                writer.newLine();
+    public static void saveScores(List<Integer> scores) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (int score : scores) {
+                writer.write(score + "\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Failed to save highscores.");
         }
     }
 }

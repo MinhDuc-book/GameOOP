@@ -16,12 +16,14 @@ public class HighscorePanel extends JPanel {
         scoreArea.setFont(new Font("Monospaced", Font.BOLD, 18));
         scoreArea.setForeground(Color.WHITE);
         scoreArea.setBackground(Color.BLACK);
+        scoreArea.setMargin(new Insets(20, 20, 20, 20));
+        scoreArea.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        List<ScoreEntry> scores = FileHandler.loadScores();
+        List<Integer> scores = FileHandler.loadScores();
         StringBuilder sb = new StringBuilder("Top 5 Highscores:\n\n");
         for (int i = 0; i < scores.size(); i++) {
-            ScoreEntry entry = scores.get(i);
-            sb.append(String.format("%d. %s - %d\n", i + 1, entry.getPlayerName(), entry.getScore()));
+            int score = scores.get(i);
+            sb.append(String.format("%d. %d points\n", i + 1, score));
         }
         scoreArea.setText(sb.toString());
 
