@@ -4,8 +4,10 @@ import java.util.*;
 
 public class HighscoreManager {
     private static final int MAX_ENTRIES = 5;
+    public static int lastScore = 0;
 
     public static void saveScore(int newScore) {
+        lastScore = newScore;
         List<Integer> scores = FileHandler.loadScores();
         scores.add(newScore);
         Collections.sort(scores, Collections.reverseOrder());

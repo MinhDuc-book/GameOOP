@@ -13,6 +13,23 @@ import game.HIGHSCORE.HighscoreManager;
 
 
 public class GamePanel extends JPanel implements Runnable {
+    private JFrame window;
+
+    public GamePanel(JFrame window) {
+        this.window = window;
+        init();
+    }
+
+    private void init() {
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(true);
+        this.addKeyListener(keyH);
+        this.setFocusable(true);
+        setupGame();
+    }
+
+
     public static final int SCREEN_WIDTH = 600;
     public static final int SCREEN_HEIGHT = 700;
 
@@ -113,7 +130,6 @@ public class GamePanel extends JPanel implements Runnable {
             case END:
                 System.out.println("END");
                 HighscoreManager.saveScore(score);
-                HighscoreManager.displayHighscores();
                 break;
 
             case DONE:

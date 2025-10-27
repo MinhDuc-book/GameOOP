@@ -132,13 +132,17 @@ public class Ball extends MovableObject {
 
                         // --- Giảm độ bền gạch ---
                         if (map[row][col] == 3) {
+                            // Gạch không thể phá
                             map[row][col] = 3;
                         } else if (map[row][col] == 4 || map[row][col] == 5) {
+                            // Gạch đặc biệt bị phá ngay
                             map[row][col] = 0;
-
+                            gp.score += 10;
                         } else {
                             map[row][col]--;
+                            gp.score += 10;
                         }
+
 
 
 
