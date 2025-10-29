@@ -1,10 +1,10 @@
 package game.BACKGROUND;
 
-import game.GAMESTATE.GameState;
 import game.MAIN.*;
 import game.SOUND.*;
 import game.HIGHSCORE.HighscorePanel;
 import game.BACKGROUND.MenuButton;
+import game.HIGHSCORE.HighscoreManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,10 +34,6 @@ public class DefaultBackground extends JPanel implements MouseListener {
 
     }
 
-    public void getSoundActive() {
-    }
-
-
     @Override
     protected void paintComponent(Graphics g) {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
@@ -61,8 +57,8 @@ public class DefaultBackground extends JPanel implements MouseListener {
 
         else if (getStartButton().intoBound(mouseX, mouseY)) {
             System.out.println("Bắt đầu trò chơi!");
-            GamePanel gamePanel = new GamePanel(); // Khởi tạo GamePanel
-            frame.getContentPane().add(gamePanel); // Thêm vào JFrame
+            GamePanel gamePanel = new GamePanel(frame);
+            frame.setContentPane(gamePanel);
             frame.revalidate();
             frame.repaint();
             frame.setSize(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()+50);
@@ -82,14 +78,14 @@ public class DefaultBackground extends JPanel implements MouseListener {
             showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
 
-            HighscorePanel highscorePanel = new HighscorePanel(frame, () -> {
-                // Quay lại menu chính
-                frame.setContentPane(this); // this = DefaultBackground
+            HighscorePanel highscorePanel = new HighscorePanel(frame, HighscoreManager.lastScore, () -> {
+                frame.setContentPane(this);
                 frame.revalidate();
             });
-
             frame.setContentPane(highscorePanel);
             frame.revalidate();
+
+
         }
 
     }

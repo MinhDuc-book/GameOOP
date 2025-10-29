@@ -15,8 +15,29 @@ import game.GAMESTATE.PauseState;
 import game.OBJECT.BrickItem;
 import game.OBJECT.EnhancedObject;
 import game.OBJECT.LifeCount;
+import game.HIGHSCORE.HighscoreManager;
+
 
 public class GamePanel extends JPanel implements Runnable {
+    private JFrame window;
+
+    public GamePanel(JFrame window) {
+        this.window = window;
+        init();
+    }
+
+    private void init() {
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(true);
+        this.addKeyListener(keyH);
+        this.setFocusable(true);
+        setupGame();
+    }
+
+    private boolean endStateHandled = false;
+
+
     public static final int SCREEN_WIDTH = 600;
     public static final int SCREEN_HEIGHT = 700;
 
@@ -95,6 +116,39 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void resetGame() {
+        // reset score and player lives
+        endStateHandled = false;
+        score = 0;
+        player.lifeCount = 1;
+
+        // reset / recreate bricks and items
+        items.clear();
+        brick = new Brick(this);
+
+        // reset player position (centered above bottom) if fields exist
+        try {
+            player.x = (SCREEN_WIDTH - player.w) / 2;
+            player.y = SCREEN_HEIGHT - player.h - 20;
+        } catch (Exception ignored) {}
+
+        // clear balls and add a single initial ball (not active)
+        balls.clear();
+        Ball initBall = new Ball(this, player);
+        initBall.isActive = false;
+        balls.add(initBall);
+
+        // re-place objects for the level
+        try {
+            aSetter.setObject();
+        } catch (Exception e) {
+            System.out.println("Warning: aSetter.setObject() failed during reset: " + e.getMessage());
+        }
+
+        // go to play state
+        gameState.setCurrentState(GameState.State.PLAY);
+    }
+
     public void update() {
         // Xử lý toggle pause/play khi nhấn ESC
         if (keyH.escPressed && !escPressedLastFrame) {
@@ -164,9 +218,16 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case END:
-                break;
+                if (!escPressedLastFrame && keyH.escPressed) {
+                    resetGame();
+                }
 
-            case DONE:
+                // Chỉ lưu điểm một lần khi mới vào trạng thái END
+                if (!endStateHandled) {
+                    System.out.println("END");
+                    HighscoreManager.saveScore(score);
+                    endStateHandled = true;
+                }
                 break;
 
             default:
