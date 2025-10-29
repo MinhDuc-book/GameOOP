@@ -16,6 +16,7 @@ public class Ball extends MovableObject {
     public int speedX, speedY;
     private static BufferedImage image;
     public boolean isActive = false;
+    public boolean isRemoved;
 
     static {
         try {
