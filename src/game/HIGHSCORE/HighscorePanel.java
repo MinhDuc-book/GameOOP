@@ -2,31 +2,31 @@ package game.HIGHSCORE;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.List;
 
 public class HighscorePanel extends JPanel {
-    public HighscorePanel(JFrame window, Runnable onExit) {
+    public HighscorePanel(JFrame window, int lastScore, Runnable onExit) {
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
-        // Hiển thị điểm cao
         JTextArea scoreArea = new JTextArea();
         scoreArea.setEditable(false);
         scoreArea.setFont(new Font("Monospaced", Font.BOLD, 18));
         scoreArea.setForeground(Color.WHITE);
         scoreArea.setBackground(Color.BLACK);
+        scoreArea.setMargin(new Insets(20, 20, 20, 20));
 
-        List<ScoreEntry> scores = FileHandler.loadScores();
-        StringBuilder sb = new StringBuilder("Top 5 Highscores:\n\n");
+        List<Integer> scores = FileHandler.loadScores();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Your last score: ").append(lastScore).append(" points\n\n");
+        sb.append("Top 5 Highscores:\n\n");
         for (int i = 0; i < scores.size(); i++) {
-            ScoreEntry entry = scores.get(i);
-            sb.append(String.format("%d. %s - %d\n", i + 1, entry.getPlayerName(), entry.getScore()));
+            int score = scores.get(i);
+            sb.append(String.format("%d. %d points\n", i + 1, score));
         }
         scoreArea.setText(sb.toString());
 
-        // Nút Exit
-        JButton exitButton = new JButton("Exit");
+        JButton exitButton = new JButton("Return Menu");
         exitButton.setFont(new Font("Arial", Font.BOLD, 14));
         exitButton.setBackground(Color.RED);
         exitButton.setForeground(Color.WHITE);
@@ -40,4 +40,3 @@ public class HighscorePanel extends JPanel {
         add(scoreArea, BorderLayout.CENTER);
     }
 }
-
