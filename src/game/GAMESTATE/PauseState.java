@@ -2,6 +2,7 @@ package game.GAMESTATE;
 
 import game.MAIN.GamePanel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class PauseState {
     private GamePanel gp;
@@ -27,5 +28,8 @@ public class PauseState {
         String resumeText = "Press ESC to Resume";
         int resumeWidth = g2.getFontMetrics().stringWidth(resumeText);
         g2.drawString(resumeText, (GamePanel.SCREEN_WIDTH - resumeWidth) / 2, GamePanel.SCREEN_HEIGHT / 2 + 50);
+    }
+
+    public void mousePressed(MouseEvent e) {
     }
 }

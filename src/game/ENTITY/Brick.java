@@ -118,4 +118,8 @@ public class Brick extends GameObject {
         }
 
     }
+    public void reset() {
+        // Tạo lại mảng gạch ban đầu
+        loadBrickMap(); // nếu bạn có phương thức khởi tạo gạch
+    }
 }
