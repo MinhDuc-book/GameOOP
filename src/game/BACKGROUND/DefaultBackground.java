@@ -1,6 +1,7 @@
 package game.BACKGROUND;
 
 import game.GAMESTATE.GameState;
+import game.HIGHSCORE.HighscoreManager;
 import game.MAIN.*;
 import game.SOUND.*;
 import game.HIGHSCORE.HighscorePanel;
@@ -77,16 +78,13 @@ public class DefaultBackground extends JPanel implements MouseListener {
         else if (getScoreButton().intoBound(mouseX, mouseY)) {
             showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
-//
-//            HighscorePanel highscorePanel = new HighscorePanel(frame, () -> {
-//                // Quay lại menu chính
-//                frame.setContentPane(this); // this = DefaultBackground
-//                frame.revalidate();
-//            });
-//
-//            frame.setContentPane(highscorePanel);
-//            frame.revalidate();
-        }
+            HighscorePanel highscorePanel = new HighscorePanel(frame, HighscoreManager.lastScore, () -> {
+                frame.setContentPane(this);
+                frame.revalidate();
+            });
+            frame.setContentPane(highscorePanel);
+            frame.revalidate();
+       }
 
     }
 
