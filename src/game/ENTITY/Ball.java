@@ -5,6 +5,8 @@ import game.MAIN.GamePanel;
 import game.OBJECT.BrickItem;
 import game.SOUND.Sound;
 
+import game.OBJECT.BrickItem;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -56,16 +58,18 @@ public class Ball extends MovableObject {
             x += speedX;
             y += speedY;
 
+            // Nảy tường trái/phải
             if (x <= 0 || x + diameter >= gp.SCREEN_WIDTH) {
                 speedX = -speedX;
             }
 
+            // Nảy trần
             if (y <= 0) {
                 speedY = -speedY;
             }
 
             if (y + diameter >= gp.SCREEN_HEIGHT) {
-                this.isRemoved = true;
+                isRemoved = true;
             }
 
             checkCollisionWithPlayer();
@@ -83,7 +87,6 @@ public class Ball extends MovableObject {
 
         if (ballRect.intersects(playerRect)) {
             y = player.y - diameter;
-
             if (speedY > 0) {
                 speedY = -speedY;
             }
@@ -108,10 +111,8 @@ public class Ball extends MovableObject {
                     Rectangle brickRect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
 
                     if (ballRect.intersects(brickRect)) {
-
                         double ballCenterX = x + diameter / 2.0;
                         double ballCenterY = y + diameter / 2.0;
-
                         double brickCenterX = brickX + brickWidth / 2.0;
                         double brickCenterY = brickY + brickHeight / 2.0;
 
@@ -172,21 +173,20 @@ public class Ball extends MovableObject {
 
     private boolean isAllBricksDestroyed() {
         int[][] map = gp.brick.brickMap;
-        boolean check = true;
         for (int[] row : map) {
             for (int value : row) {
                 if (value != 3 && value != 0) {
-                    check = false;
+                    return false;
                 }
             }
         }
-        return check;
+        return true;
     }
 
     public void draw(Graphics2D g2) {
-        if (image != null)
+        if (image != null) {
             g2.drawImage(image, x, y, diameter, diameter, null);
-        else {
+        } else {
             g2.setColor(Color.WHITE);
             g2.fillOval(x, y, diameter, diameter);
         }
