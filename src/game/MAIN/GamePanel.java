@@ -107,7 +107,7 @@ public class GamePanel extends JPanel implements Runnable {
         // reset player position (centered above bottom) if fields exist
         try {
             player.x = (SCREEN_WIDTH - player.w) / 2;
-            player.y = SCREEN_HEIGHT - player.h - 20;
+            player.y = SCREEN_HEIGHT - 150;
         } catch (Exception ignored) {}
 
         // clear balls and add a single initial ball (not active)
