@@ -77,7 +77,7 @@ public class DefaultBackground extends JPanel implements MouseListener {
         else if (getScoreButton().intoBound(mouseX, mouseY)) {
             showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
-
+//
 //            HighscorePanel highscorePanel = new HighscorePanel(frame, () -> {
 //                // Quay lại menu chính
 //                frame.setContentPane(this); // this = DefaultBackground
