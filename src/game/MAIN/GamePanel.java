@@ -15,8 +15,29 @@ import game.GAMESTATE.PauseState;
 import game.OBJECT.BrickItem;
 import game.OBJECT.EnhancedObject;
 import game.OBJECT.LifeCount;
+import game.HIGHSCORE.HighscoreManager;
+
 
 public class GamePanel extends JPanel implements Runnable {
+    private JFrame window;
+
+    public GamePanel(JFrame window) {
+        this.window = window;
+        init();
+    }
+
+    private void init() {
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(true);
+        this.addKeyListener(keyH);
+        this.setFocusable(true);
+        setupGame();
+    }
+
+    private boolean endStateHandled = false;
+
+
     public static final int SCREEN_WIDTH = 600;
     public static final int SCREEN_HEIGHT = 700;
 
@@ -97,6 +118,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void resetGame() {
         // reset score and player lives
+        endStateHandled = false;
         score = 0;
         player.lifeCount = 1;
 
@@ -196,14 +218,15 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case END:
-                if (keyH.escPressed) {
+                if (!escPressedLastFrame && keyH.escPressed) {
                     resetGame();
                 }
-                break;
 
-            case DONE:
-                if (keyH.escPressed) {
-                    resetGame();
+                // Chỉ lưu điểm một lần khi mới vào trạng thái END
+                if (!endStateHandled) {
+                    System.out.println("END");
+                    HighscoreManager.saveScore(score);
+                    endStateHandled = true;
                 }
                 break;
 

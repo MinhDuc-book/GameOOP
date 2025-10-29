@@ -7,7 +7,6 @@ import game.OBJECT.BrickItem;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Ball extends MovableObject {
     GamePanel gp;
@@ -20,7 +19,6 @@ public class Ball extends MovableObject {
     private static BufferedImage image;
     public boolean isActive = false;
     public boolean isRemoved = false;
-
 
     static {
         try {
@@ -62,7 +60,7 @@ public class Ball extends MovableObject {
             }
 
             if (y + diameter >= gp.SCREEN_HEIGHT) {
-                this.isRemoved = true;
+                isRemoved = true;
             }
 
             checkCollisionWithPlayer();
@@ -80,7 +78,6 @@ public class Ball extends MovableObject {
 
         if (ballRect.intersects(playerRect)) {
             y = player.y - diameter;
-
             if (speedY > 0) {
                 speedY = -speedY;
             }
@@ -105,10 +102,8 @@ public class Ball extends MovableObject {
                     Rectangle brickRect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
 
                     if (ballRect.intersects(brickRect)) {
-
                         double ballCenterX = x + diameter / 2.0;
                         double ballCenterY = y + diameter / 2.0;
-
                         double brickCenterX = brickX + brickWidth / 2.0;
                         double brickCenterY = brickY + brickHeight / 2.0;
 
@@ -121,39 +116,19 @@ public class Ball extends MovableObject {
                             speedY = -speedY;
                         }
 
-                        if (map[row][col] == 3) {
+                        if (brickValue == 3) {
+                            // Gạch không thể phá
                             map[row][col] = 3;
-                        } else if (map[row][col] == 4) {
-                            int itemType = map[row][col];
+                        } else if (brickValue == 4 || brickValue == 5 || brickValue == 6) {
+                            int itemType = brickValue;
                             map[row][col] = 0;
                             gp.score += 100;
-                            System.out.println("Điểm hiện tại:" + gp.score);
 
-                            BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
+                            BrickItem newItem = new BrickItem(gp, brickX, brickY, itemType);
                             gp.items.add(newItem);
-
-                        } else if (map[row][col] == 5) {
-                            int itemType = map[row][col];
-                            map[row][col] = 0;
-                            gp.score += 100;
-                            System.out.println("Điểm hiện tại:" + gp.score);
-
-                            BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
-                            gp.items.add(newItem);
-                        } else if (map[row][col] == 6) {
-                            int itemType = map[row][col];
-                            map[row][col] = 0;
-                            gp.score += 100; // add 100
-                            System.out.println("Điểm hiện tại:" + gp.score);
-
-                            BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
-                            gp.items.add(newItem);
-                        }
-
-                        else {
+                        } else {
                             map[row][col]--;
-                            gp.score += 50; // add 50 ponit
-                            System.out.println("Điểm hiện tại:" + gp.score);
+                            gp.score += 50;
                         }
 
                         return;
@@ -165,21 +140,20 @@ public class Ball extends MovableObject {
 
     private boolean isAllBricksDestroyed() {
         int[][] map = gp.brick.brickMap;
-        boolean check = true;
         for (int[] row : map) {
             for (int value : row) {
                 if (value != 3 && value != 0) {
-                    check = false;
+                    return false;
                 }
             }
         }
-        return check;
+        return true;
     }
 
     public void draw(Graphics2D g2) {
-        if (image != null)
+        if (image != null) {
             g2.drawImage(image, x, y, diameter, diameter, null);
-        else {
+        } else {
             g2.setColor(Color.WHITE);
             g2.fillOval(x, y, diameter, diameter);
         }

@@ -1,9 +1,9 @@
 package game.BACKGROUND;
 
-import game.GAMESTATE.GameState;
 import game.MAIN.*;
 import game.SOUND.*;
 import game.HIGHSCORE.HighscorePanel;
+import game.HIGHSCORE.HighscoreManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +16,8 @@ public class DefaultBackground extends JPanel implements MouseListener {
     private JFrame  frame;
     private String soundpath = "/asset/sound/game-music-loop-7-145285.wav";
     private Sound sound = new Sound();;
+
+
 
     int startX = 230;
     int startY = 130;
@@ -70,8 +72,8 @@ public class DefaultBackground extends JPanel implements MouseListener {
         else if (startBtn.intoBound(mouseX, mouseY)) {
             sound.stop();
             System.out.println("Bắt đầu trò chơi!");
-            GamePanel gamePanel = new GamePanel(); // Khởi tạo GamePanel
-            frame.getContentPane().add(gamePanel); // Thêm vào JFrame
+            GamePanel gamePanel = new GamePanel(frame);
+            frame.setContentPane(gamePanel);
             frame.revalidate();
             frame.repaint();
             frame.setSize(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()+50);
@@ -90,14 +92,14 @@ public class DefaultBackground extends JPanel implements MouseListener {
             showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
 
-            HighscorePanel highscorePanel = new HighscorePanel(frame, () -> {
-                // Quay lại menu chính
-                frame.setContentPane(this); // this = DefaultBackground
+            HighscorePanel highscorePanel = new HighscorePanel(frame, HighscoreManager.lastScore, () -> {
+                frame.setContentPane(this);
                 frame.revalidate();
             });
-
             frame.setContentPane(highscorePanel);
             frame.revalidate();
+
+
         }
 
     }
