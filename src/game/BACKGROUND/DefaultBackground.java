@@ -54,7 +54,7 @@ public class DefaultBackground extends JPanel implements MouseListener {
 
         }
 
-        else if (startBtn.intoBound(mouseX, mouseY)) {
+        else if (getStartButton().intoBound(mouseX, mouseY)) {
             sound.stop();
             System.out.println("Bắt đầu trò chơi!");
             GamePanel gamePanel = new GamePanel(); // Khởi tạo GamePanel
@@ -78,14 +78,14 @@ public class DefaultBackground extends JPanel implements MouseListener {
             showScore = ! showScore;
             System.out.println("Hiển thị điểm!");
 
-            HighscorePanel highscorePanel = new HighscorePanel(frame, () -> {
-                // Quay lại menu chính
-                frame.setContentPane(this); // this = DefaultBackground
-                frame.revalidate();
-            });
-
-            frame.setContentPane(highscorePanel);
-            frame.revalidate();
+//            HighscorePanel highscorePanel = new HighscorePanel(frame, () -> {
+//                // Quay lại menu chính
+//                frame.setContentPane(this); // this = DefaultBackground
+//                frame.revalidate();
+//            });
+//
+//            frame.setContentPane(highscorePanel);
+//            frame.revalidate();
         }
 
     }
