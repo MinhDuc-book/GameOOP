@@ -218,7 +218,7 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case END:
-                if (!escPressedLastFrame && keyH.escPressed) {
+                if (keyH.escPressed) {
                     resetGame();
                 }
 
