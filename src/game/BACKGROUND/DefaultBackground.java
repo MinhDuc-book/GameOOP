@@ -62,7 +62,7 @@ public class DefaultBackground extends JPanel implements MouseListener {
             frame.getContentPane().add(gamePanel); // Thêm vào JFrame
             frame.revalidate();
             frame.repaint();
-            frame.setSize(GamePanel.getSreenWidth(), GamePanel.getSreenHeight()+50);
+            frame.setSize(GamePanel.getSreenWidth(), GamePanel.getSreenHeight() + 50);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
             sound.stop();

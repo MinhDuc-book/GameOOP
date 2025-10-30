@@ -219,6 +219,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             case END:
                 if (keyH.escPressed) {
+                    gameState.setCurrentState(GameState.State.PLAY);
                     resetGame();
                 }
 
@@ -227,6 +228,12 @@ public class GamePanel extends JPanel implements Runnable {
                     System.out.println("END");
                     HighscoreManager.saveScore(score);
                     endStateHandled = true;
+                }
+                break;
+
+            case DONE:
+                if (keyH.enterPressed) {
+
                 }
                 break;
 
