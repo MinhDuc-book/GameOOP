@@ -1,48 +1,38 @@
-package game.GAMESTATE;
+    package game.GAMESTATE;
 
-import java.awt.event.MouseEvent;
-import game.MAIN.GamePanel;
+    import game.MAIN.GamePanel;
 
-public class GameState {
+    import java.awt.*;
 
-    public enum State {
-        MENU, PLAY, PAUSE, END, DONE
-    }
+    public class GameState {
+        GamePanel gp;
 
-    private State currentState;
-    private GamePanel gp;
+        public enum State {
+            MENU, PLAY, PAUSE, END, DONE
+        }
 
-    public GameState(GamePanel gp) {
-        this.gp = gp;
-        this.currentState = State.MENU;
-    }
+        private State currentState;
 
-    public void setCurrentState(State state) {
-        this.currentState = state;
-    }
+        public GameState(GamePanel gp) {
+            this.gp = gp;
+            this.currentState = State.MENU;
+        }
 
-    public State getCurrentState() {
-        return currentState;
-    };
+//        public GameState() {
+//            currentState = State.MENU;
+//        }
 
+        public void setCurrentState(State state) {
+            this.currentState = state;
+        }
 
-    // Hàm xử lý chuột cho từng trạng thái
-    public void mousePressed(MouseEvent e) {
-        switch (currentState) {
-            case DONE:
-                DoneState doneState = new DoneState(gp);
-                doneState.mousePressed(e);
-                break;
-            case END:
-                EndState endState = new EndState(gp);
-                break;
-            case PAUSE:
-                PauseState pauseState = new PauseState(gp);
-                pauseState.mousePressed(e);
-                break;
-            default:
+        public State getCurrentState() {
+            return currentState;
+        }
 
-                break;
+        public void draw(Graphics2D g2) {
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Arial", Font.BOLD, 20));
+            g2.drawString("Score: " + gp.score, 20, 30);
         }
     }
-}

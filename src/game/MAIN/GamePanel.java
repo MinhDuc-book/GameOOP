@@ -21,8 +21,9 @@ import game.HIGHSCORE.HighscoreManager;
 public class GamePanel extends JPanel implements Runnable {
     private JFrame window;
 
-    public GamePanel(JFrame window) {
+    public GamePanel(JFrame window, int level) {
         this.window = window;
+        this.level = level;
         init();
     }
 
@@ -43,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     int FPS = 60;
     public int score = 0;
+    public int level = 1; // mặc định là level 1
 
     public static int getSreenWidth() {
         return SCREEN_WIDTH;
@@ -83,6 +85,9 @@ public class GamePanel extends JPanel implements Runnable {
         balls.add(initBall);
 
         aSetter.setObject();
+
+        String mapName = "map" + level;
+        brick.setBrickMap(BrickMapLoader.loadMap(mapName));
 
         gameState.setCurrentState(GameState.State.PLAY);
     }
@@ -138,12 +143,8 @@ public class GamePanel extends JPanel implements Runnable {
         initBall.isActive = false;
         balls.add(initBall);
 
-        // re-place objects for the level
-        try {
-            aSetter.setObject();
-        } catch (Exception e) {
-            System.out.println("Warning: aSetter.setObject() failed during reset: " + e.getMessage());
-        }
+        // set map after reset game
+        brick.setBrickMap(BrickMapLoader.loadMap("map1")); //default EASY
 
         // go to play state
         gameState.setCurrentState(GameState.State.PLAY);
@@ -219,7 +220,6 @@ public class GamePanel extends JPanel implements Runnable {
 
             case END:
                 if (keyH.escPressed) {
-                    gameState.setCurrentState(GameState.State.PLAY);
                     resetGame();
                 }
 
@@ -232,9 +232,7 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case DONE:
-                if (keyH.enterPressed) {
 
-                }
                 break;
 
             default:
@@ -272,6 +270,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+        System.out.println("Đã chọn cấp độ: " + level);
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -304,13 +307,13 @@ public class GamePanel extends JPanel implements Runnable {
             DoneState.draw(g2);
         }
 
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 20));
-        g2.drawString("Score: " + score, 20, 30);
-
+        if (gameState.getCurrentState() == GameState.State.PLAY) {
+            gameState.draw(g2);
+//            g2.setColor(Color.WHITE);
+//            g2.setFont(new Font("Arial", Font.BOLD, 20));
+//            g2.drawString("Score: " + score, 20, 30);
+        }
         g2.dispose();
-
-
 
     }
 }
