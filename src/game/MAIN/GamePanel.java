@@ -21,8 +21,9 @@ import game.HIGHSCORE.HighscoreManager;
 public class GamePanel extends JPanel implements Runnable {
     private JFrame window;
 
-    public GamePanel(JFrame window) {
+    public GamePanel(JFrame window, int level) {
         this.window = window;
+        this.level = level;
         init();
     }
 
@@ -43,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     int FPS = 60;
     public int score = 0;
+    public int level = 1; // mặc định là level 1
 
     public static int getSreenWidth() {
         return SCREEN_WIDTH;
@@ -83,6 +85,9 @@ public class GamePanel extends JPanel implements Runnable {
         balls.add(initBall);
 
         aSetter.setObject();
+
+        String mapName = "map" + level;
+        brick.setBrickMap(BrickMapLoader.loadMap(mapName));
 
         gameState.setCurrentState(GameState.State.PLAY);
     }
@@ -129,7 +134,7 @@ public class GamePanel extends JPanel implements Runnable {
         // reset player position (centered above bottom) if fields exist
         try {
             player.x = (SCREEN_WIDTH - player.w) / 2;
-            player.y = SCREEN_HEIGHT - player.h - 20;
+            player.y = SCREEN_HEIGHT - 150;
         } catch (Exception ignored) {}
 
         // clear balls and add a single initial ball (not active)
@@ -138,12 +143,8 @@ public class GamePanel extends JPanel implements Runnable {
         initBall.isActive = false;
         balls.add(initBall);
 
-        // re-place objects for the level
-        try {
-            aSetter.setObject();
-        } catch (Exception e) {
-            System.out.println("Warning: aSetter.setObject() failed during reset: " + e.getMessage());
-        }
+        // set map after reset game
+        brick.setBrickMap(BrickMapLoader.loadMap("map1")); //default EASY
 
         // go to play state
         gameState.setCurrentState(GameState.State.PLAY);
@@ -218,7 +219,7 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case END:
-                if (!escPressedLastFrame && keyH.escPressed) {
+                if (keyH.escPressed) {
                     resetGame();
                 }
 
@@ -228,6 +229,10 @@ public class GamePanel extends JPanel implements Runnable {
                     HighscoreManager.saveScore(score);
                     endStateHandled = true;
                 }
+                break;
+
+            case DONE:
+
                 break;
 
             default:
@@ -263,6 +268,11 @@ public class GamePanel extends JPanel implements Runnable {
                 System.out.println("Boom!");
                 break;
         }
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+        System.out.println("Đã chọn cấp độ: " + level);
     }
 
     @Override

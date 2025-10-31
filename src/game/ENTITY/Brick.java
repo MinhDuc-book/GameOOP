@@ -30,7 +30,6 @@ public class Brick extends GameObject {
         brickMap = new int[10][19];
         brick = new Brick[7];
         getBrickImage();
-        loadBrickMap();
     }
 
     public Brick() {
@@ -69,29 +68,12 @@ public class Brick extends GameObject {
         }
     }
 
-    public void loadBrickMap() {
-        try {
-            InputStream is = getClass().getResourceAsStream("/asset/brickMap/map1.txt");
-            //if (is == null) {
-            //    System.out.println(" Không tìm thấy map1.txt trong resource path!");
-            //} else {
-                //System.out.println(" Đã load được map1.txt");
-            //}
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+    public void setBrickMap(int[][] map) {
+        this.brickMap = map;
+    }
 
-            for (int i = 0; i < 10; ++i) {
-                String line = br.readLine();
-
-                for (int j = 0; j < 19; ++j) {
-                    String number[] = line.split(" ");
-                    int num = Integer.parseInt(number[j]); // string -> int
-                    brickMap[i][j] = num;
-                }
-            }
-            br.close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public int[][] getBrickMap() {
+        return brickMap;
     }
 
     public void draw(Graphics2D g2) {
