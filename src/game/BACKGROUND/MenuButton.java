@@ -39,7 +39,7 @@ public class MenuButton extends GameObject {
         }
 
         // Draw text centered on button
-        g.setColor(Color.RED);
+        g.setColor(Color.decode("#00b8e6"));
         g.setFont(new Font("Arial", Font.BOLD, 18));
         FontMetrics fm = g.getFontMetrics();
         int textX = x + (w - fm.stringWidth(Name)) / 2;

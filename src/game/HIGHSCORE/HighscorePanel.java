@@ -20,10 +20,13 @@ public class HighscorePanel extends JPanel {
         StringBuilder sb = new StringBuilder();
         sb.append("Your last score: ").append(lastScore).append(" points\n\n");
         sb.append("Top 5 Highscores:\n\n");
-        for (int i = 0; i < scores.size(); i++) {
+        scores.sort((a, b) -> b - a);
+        int max = Math.min(scores.size(), 5);
+        for (int i = 0; i < max; i++) {
             int score = scores.get(i);
             sb.append(String.format("%d. %d points\n", i + 1, score));
         }
+
         scoreArea.setText(sb.toString());
 
         JButton exitButton = new JButton("Return Menu");
