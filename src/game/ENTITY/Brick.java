@@ -83,25 +83,21 @@ public class Brick extends GameObject {
 
                 if (brickMap[i][j] == 1) {
                     this.countLife = 1;
-                    g2.drawImage(brick[1].brickImage, j*30, i*30, 30, 30, null);
+                    g2.drawImage(brick[1].brickImage, j * 30, i * 30, 30, 30, null);
                 } else if (brickMap[i][j] == 2) {
                     this.countLife = 2;
-                    g2.drawImage(brick[2].brickImage, j*30, i*30, 30, 30, null);
+                    g2.drawImage(brick[2].brickImage, j * 30, i * 30, 30, 30, null);
                 } else if (brickMap[i][j] == 3) {
-                    g2.drawImage(brick[3].brickImage, j*30, i*30, 30, 30, null);
+                    g2.drawImage(brick[3].brickImage, j * 30, i * 30, 30, 30, null);
                 } else if (brickMap[i][j] == 4) {
-                    g2.drawImage(brick[4].brickImage, j*30, i*30, 30, 30, null);
+                    g2.drawImage(brick[4].brickImage, j * 30, i * 30, 30, 30, null);
                 } else if (brickMap[i][j] == 5) {
-                    g2.drawImage(brick[5].brickImage, j*30, i*30, 30, 30, null);
+                    g2.drawImage(brick[5].brickImage, j * 30, i * 30, 30, 30, null);
                 } else if (brickMap[i][j] == 6) {
-                    g2.drawImage(brick[6].brickImage, j*30, i*30, 30, 30, null);
+                    g2.drawImage(brick[6].brickImage, j * 30, i * 30, 30, 30, null);
                 }
             }
         }
+    }
 
-    }
-    public void reset() {
-        // Tạo lại mảng gạch ban đầu
-        loadBrickMap(); // nếu bạn có phương thức khởi tạo gạch
-    }
 }
