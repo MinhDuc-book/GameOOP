@@ -16,8 +16,8 @@ public class Ball extends MovableObject {
     GamePanel gp;
     Player player;
     Brick bricks;
-    Sound breakingSound = new Sound();
-    Sound metalSound = new Sound();
+    Sound breakingSound = new Sound() ;
+    Sound metalSound =  new Sound() ;
     GameState gameState = new GameState(gp);
 
     public int diameter = 20;
@@ -99,6 +99,8 @@ public class Ball extends MovableObject {
 
         int brickWidth = 30;
         int brickHeight = 30;
+        breakingSound.setSound("/asset/sound/breakingsound.wav");
+        metalSound.setSound("/asset/sound/metal sound.wav");
 
         Rectangle ballRect = new Rectangle(x, y, diameter, diameter);
 

@@ -23,25 +23,32 @@ public class Sound {
             throw new RuntimeException("error when start sound.");
         }
     }
+
     public void stop() {
         if (clip != null && clip.isRunning()) {
             clip.stop();
             clip.setFramePosition(0);
         }
     }
+
     public void loop() {
         if (this.clip != null) {
             this.clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
+
     public void playSound() {
         if (this.clip != null) {
             this.clip.start();
         }
     }
 
-
-
-
+    public void setVolume(float value) {
+        if (clip != null) {
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float dB = (float) (20 * Math.log10(value == 0 ? 0.001 : value));
+            gainControl.setValue(dB);
+        }
+    }
 
 }

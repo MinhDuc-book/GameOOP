@@ -15,7 +15,11 @@ public class DefaultBackground extends JPanel implements MouseListener {
     private Image image;
     private JFrame  frame;
     private String soundpath = "/asset/sound/game-music-loop-7-145285.wav";
-    private Sound sound = new Sound();;
+    private Sound sound = new Sound();
+    private boolean showVolume = false;
+    private JSlider volumeSlider;
+    private int currentVolume = 50; // % volume
+
 
 
 
@@ -25,6 +29,7 @@ public class DefaultBackground extends JPanel implements MouseListener {
     private MenuButton startBtn = new MenuButton("BẮT ĐẦU", startX, startY+70, 150, 50);
     private MenuButton scoreBtn = new MenuButton(" Điểm", startX, startY, 150, 50);
     private MenuButton levelBtn = new MenuButton(" Cấp độ", startX, startY + 3 * 70, 150, 50);
+    private MenuButton soundBtn = new MenuButton("Chỉnh âm", startX,startY + 4 * 70, 150, 50 );
     private boolean showInstructions = false;
     private boolean showScore = false;
     private boolean showLevel = false;
@@ -38,6 +43,20 @@ public class DefaultBackground extends JPanel implements MouseListener {
         this.frame = window;
             sound.setSound(soundpath);
             sound.loop();
+        volumeSlider = new JSlider(0, 100, currentVolume);
+        volumeSlider.setBounds(200, 470, 200, 50);
+        volumeSlider.setOpaque(false);
+        volumeSlider.setVisible(false);
+
+// Thay đổi âm lượng khi kéo
+        volumeSlider.addChangeListener(e -> {
+            currentVolume = volumeSlider.getValue();
+            float vol = currentVolume / 100f;
+            sound.setVolume(vol);
+        });
+        this.setLayout(null);
+        this.add(volumeSlider);
+
     }
 
     @Override
@@ -47,6 +66,7 @@ public class DefaultBackground extends JPanel implements MouseListener {
         startBtn.draw(g);
         scoreBtn.draw(g);
         levelBtn.draw(g);
+        soundBtn.draw(g);
 
         if (showInstructions) {
             g.setColor(new Color(255, 255, 200, 220));
@@ -88,6 +108,20 @@ public class DefaultBackground extends JPanel implements MouseListener {
             g.setColor(Color.BLACK);
             g.drawString("KHÓ", 275, 585);
         }
+        if (showVolume) {
+            g.setColor(new Color(255, 255, 200, 220));
+            g.fillRoundRect(150, 430, 300, 150, 20, 20);
+
+            g.setFont(new Font("Arial", Font.BOLD, 16));
+            g.setColor(Color.BLACK);
+            g.drawString("Điều chỉnh âm lượng", 210, 455);
+
+            // Hiện slider
+            volumeSlider.setVisible(true);
+        } else {
+            volumeSlider.setVisible(false);
+        }
+
     }
 
     public void mousePressed(MouseEvent e) {
@@ -120,6 +154,16 @@ public class DefaultBackground extends JPanel implements MouseListener {
                 return;
             }
         }
+
+        if (soundBtn.intoBound(mouseX, mouseY)) {
+            showVolume = !showVolume;
+            showLevel = false;
+            showInstructions = false;
+
+            volumeSlider.setVisible(showVolume);
+            repaint();
+        }
+
 
         if (instructionBtn.intoBound(mouseX, mouseY)) {
             if (instructionBtn.intoBound(mouseX, mouseY)) {
