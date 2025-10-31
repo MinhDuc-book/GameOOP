@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import game.BACKGROUND.BGManager;
+import game.BACKGROUND.DefaultBackground;
 import game.ENTITY.*;
 import game.GAMESTATE.DoneState;
 import game.GAMESTATE.EndState;
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private boolean endStateHandled = false;
+    private boolean doneStateHandled = false;
 
 
     public static final int SCREEN_WIDTH = 600;
@@ -44,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     int FPS = 60;
     public int score = 0;
-    public int level = 1; // mặc định là level 1
+    public int level = 1;
 
     public static int getSreenWidth() {
         return SCREEN_WIDTH;
@@ -59,13 +61,12 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread = new Thread(this);
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
-    public GameState gameState = new GameState();
+    public GameState gameState = new GameState(this);
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
     public ArrayList<BrickItem> items = new ArrayList<>();
 
-    // 60FPS thì khi giữ 1 giây coi như autoclick esc 60 lần -> liên tục chuyển đổi pause và resume -> cần 1 biến để giữ trạng thái
-    private boolean escPressedLastFrame = false;  // Để tránh toggle nhiều lần
+    private boolean escPressedLastFrame = false;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -122,32 +123,42 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void resetGame() {
-        // reset score and player lives
         endStateHandled = false;
+        doneStateHandled = false;
         score = 0;
         player.lifeCount = 1;
 
-        // reset / recreate bricks and items
         items.clear();
         brick = new Brick(this);
 
-        // reset player position (centered above bottom) if fields exist
         try {
             player.x = (SCREEN_WIDTH - player.w) / 2;
             player.y = SCREEN_HEIGHT - 150;
         } catch (Exception ignored) {}
 
-        // clear balls and add a single initial ball (not active)
         balls.clear();
         Ball initBall = new Ball(this, player);
         initBall.isActive = false;
         balls.add(initBall);
 
-        // set map after reset game
-        brick.setBrickMap(BrickMapLoader.loadMap("map1")); //default EASY
+        brick.setBrickMap(BrickMapLoader.loadMap("map" + level));
 
-        // go to play state
         gameState.setCurrentState(GameState.State.PLAY);
+    }
+
+    public void returnToMenu() {
+        // Dừng game thread
+        gameThread = null;
+
+        // Tạo lại DefaultBackground
+        DefaultBackground defaultBackground = new DefaultBackground("asset/background/giaodien.png", window);
+
+        // Set lại content pane về menu
+        window.setContentPane(defaultBackground);
+        window.revalidate();
+        window.repaint();
+
+        System.out.println("Quay lại menu");
     }
 
     public void update() {
@@ -159,6 +170,10 @@ public class GamePanel extends JPanel implements Runnable {
             } else if (gameState.getCurrentState() == GameState.State.PAUSE) {
                 gameState.setCurrentState(GameState.State.PLAY);
                 System.out.println("Game Resumed");
+            } else if (gameState.getCurrentState() == GameState.State.DONE ||
+                    gameState.getCurrentState() == GameState.State.END) {
+                // Nhấn ESC khi DONE / END để quay lại menu
+                returnToMenu();
             }
         }
         escPressedLastFrame = keyH.escPressed;
@@ -177,7 +192,6 @@ public class GamePanel extends JPanel implements Runnable {
 
                     b.update();
 
-
                     if (b.isRemoved) {
                         ballIterator.remove();
                     }
@@ -189,7 +203,7 @@ public class GamePanel extends JPanel implements Runnable {
                     System.out.println("Player lost ball. Remaining life: " + player.lifeCount);
 
                     if (player.lifeCount <= 0) {
-                        gameState.setCurrentState(GameState.State.END); //thua
+                        gameState.setCurrentState(GameState.State.END);
                     } else {
                         Ball newBall = new Ball(this, player);
                         newBall.isActive = false;
@@ -212,18 +226,12 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                 }
 
-
                 break;
 
             case MENU:
                 break;
 
             case END:
-                if (keyH.escPressed) {
-                    resetGame();
-                }
-
-                // Chỉ lưu điểm một lần khi mới vào trạng thái END
                 if (!endStateHandled) {
                     System.out.println("END");
                     HighscoreManager.saveScore(score);
@@ -232,7 +240,11 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
 
             case DONE:
-
+                if (!doneStateHandled) {
+                    System.out.println("DONE - Level Complete!");
+                    HighscoreManager.saveScore(score);
+                    doneStateHandled = true;
+                }
                 break;
 
             default:
@@ -309,9 +321,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState.getCurrentState() == GameState.State.PLAY) {
             gameState.draw(g2);
-//            g2.setColor(Color.WHITE);
-//            g2.setFont(new Font("Arial", Font.BOLD, 20));
-//            g2.drawString("Score: " + score, 20, 30);
         }
         g2.dispose();
 
