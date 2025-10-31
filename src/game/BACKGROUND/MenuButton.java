@@ -19,8 +19,7 @@ public class MenuButton extends GameObject {
     private static MenuButton startBtn = new MenuButton("BẮT ĐẦU", startX, startY+70, 150, 50);
     private static MenuButton scoreBtn = new MenuButton(" Điểm", startX, startY, 150, 50);
     private static MenuButton replayBtn = new MenuButton("CHƠI LẠI", startX, startY + 5 * 70, 150, 50);
-    private static MenuButton exitBtn = new MenuButton("THOÁT", startX, startY + 4 * 70, 150, 50);
-    private static MenuButton SoundBtn = new MenuButton("Chỉnh âm", startX, startY + 5 * 70, 150, 50);
+    private static MenuButton SoundBtn = new MenuButton("Chỉnh âm", startX, startY + 4 * 70, 150, 50);
     private boolean showInstructions = false;
     private boolean showScore = false;
 
@@ -100,10 +99,6 @@ public class MenuButton extends GameObject {
     }
     public static MenuButton getReplayButton() {
         return replayBtn;
-    }
-
-    public static MenuButton getExitButton() {
-        return exitBtn;
     }
 
 
