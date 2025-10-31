@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread = new Thread(this);
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
-    public GameState gameState = new GameState(this);
+    public GameState gameState = new GameState();
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
     public ArrayList<BrickItem> items = new ArrayList<>();
@@ -219,7 +219,6 @@ public class GamePanel extends JPanel implements Runnable {
 
             case END:
                 if (keyH.escPressed) {
-                    gameState.setCurrentState(GameState.State.PLAY);
                     resetGame();
                 }
 
@@ -228,12 +227,6 @@ public class GamePanel extends JPanel implements Runnable {
                     System.out.println("END");
                     HighscoreManager.saveScore(score);
                     endStateHandled = true;
-                }
-                break;
-
-            case DONE:
-                if (keyH.enterPressed) {
-
                 }
                 break;
 
