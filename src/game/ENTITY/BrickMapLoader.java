@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class BrickMapLoader {
+public class BrickMapLoader extends Brick {
 
     public static int[][] loadMap(String mapName) {
         int[][] brickMap = new int[10][19];

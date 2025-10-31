@@ -143,12 +143,8 @@ public class GamePanel extends JPanel implements Runnable {
         initBall.isActive = false;
         balls.add(initBall);
 
-        // re-place objects for the level
-        try {
-            aSetter.setObject();
-        } catch (Exception e) {
-            System.out.println("Warning: aSetter.setObject() failed during reset: " + e.getMessage());
-        }
+        // set map after reset game
+        brick.setBrickMap(BrickMapLoader.loadMap("map1")); //default EASY
 
         // go to play state
         gameState.setCurrentState(GameState.State.PLAY);
@@ -233,6 +229,10 @@ public class GamePanel extends JPanel implements Runnable {
                     HighscoreManager.saveScore(score);
                     endStateHandled = true;
                 }
+                break;
+
+            case DONE:
+
                 break;
 
             default:
