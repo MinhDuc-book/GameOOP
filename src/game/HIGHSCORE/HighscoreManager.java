@@ -3,7 +3,6 @@ package game.HIGHSCORE;
 import java.util.*;
 
 public class HighscoreManager {
-    private static final int MAX_ENTRIES = 5;
     public static int lastScore = 0;
 
     public static void saveScore(int newScore) {
@@ -12,8 +11,8 @@ public class HighscoreManager {
         scores.add(newScore);
         Collections.sort(scores, Collections.reverseOrder());
 
-        if (scores.size() > MAX_ENTRIES) {
-            scores = scores.subList(0, MAX_ENTRIES);
+        if (scores.size() > 5) {
+            scores = scores.subList(0, 5);
         }
 
         FileHandler.saveScores(scores);
