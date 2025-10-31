@@ -3,29 +3,22 @@ package game.ENTITY;
 import game.GAMESTATE.GameState;
 import game.MAIN.GamePanel;
 import game.OBJECT.BrickItem;
-import game.SOUND.Sound;
-
-import game.OBJECT.BrickItem;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Ball extends MovableObject {
     GamePanel gp;
     Player player;
     Brick bricks;
-    GameState gameState;
-    Sound breakingSound = new Sound();
-    Sound metalSound = new Sound();
+    GameState gameState = new GameState();
 
     public int diameter = 20;
     public int speedX, speedY;
     private static BufferedImage image;
     public boolean isActive = false;
     public boolean isRemoved = false;
-
 
     static {
         try {
@@ -58,12 +51,10 @@ public class Ball extends MovableObject {
             x += speedX;
             y += speedY;
 
-            // Nảy tường trái/phải
             if (x <= 0 || x + diameter >= gp.SCREEN_WIDTH) {
                 speedX = -speedX;
             }
 
-            // Nảy trần
             if (y <= 0) {
                 speedY = -speedY;
             }
@@ -125,43 +116,19 @@ public class Ball extends MovableObject {
                             speedY = -speedY;
                         }
 
-                        if (map[row][col] == 3) {
-                            metalSound.playSound();
-                        } else if (map[row][col] == 4) {
-                            breakingSound.playSound();
-                            int itemType = map[row][col];
+                        if (brickValue == 3) {
+                            // Gạch không thể phá
+                            map[row][col] = 3;
+                        } else if (brickValue == 4 || brickValue == 5 || brickValue == 6) {
+                            int itemType = brickValue;
                             map[row][col] = 0;
                             gp.score += 100;
-                            System.out.println("Điểm hiện tại:" + gp.score);
 
-                            BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
+                            BrickItem newItem = new BrickItem(gp, brickX, brickY, itemType);
                             gp.items.add(newItem);
-
-                        } else if (map[row][col] == 5) {
-                            breakingSound.playSound();
-                            int itemType = map[row][col];
-                            map[row][col] = 0;
-                            gp.score += 100;
-                            System.out.println("Điểm hiện tại:" + gp.score);
-
-                            BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
-                            gp.items.add(newItem);
-                        } else if (map[row][col] == 6) {
-                            breakingSound.playSound();
-                            int itemType = map[row][col];
-                            map[row][col] = 0;
-                            gp.score += 100; // add 100
-                            System.out.println("Điểm hiện tại:" + gp.score);
-
-                            BrickItem newItem = new BrickItem(gp, col*30, row*30, itemType);
-                            gp.items.add(newItem);
-                        }
-
-                        else {
+                        } else {
                             map[row][col]--;
-                            breakingSound.playSound();
-                            gp.score += 50; // add 50 ponit
-                            System.out.println("Điểm hiện tại:" + gp.score);
+                            gp.score += 50;
                         }
 
                         return;

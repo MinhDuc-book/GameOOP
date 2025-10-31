@@ -1,15 +1,11 @@
 package game.GAMESTATE;
 
-import game.BACKGROUND.MenuButton;
 import game.MAIN.GamePanel;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class EndState {
     private GamePanel gp;
-
-    public GamePanel score;
 
     public EndState(GamePanel gp) {
         this.gp = gp;
@@ -29,7 +25,6 @@ public class EndState {
         String escText = "Press ESC to play again";
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
         int escWidth = g2.getFontMetrics().stringWidth(escText);
-        g2.drawString(escText, (GamePanel.SCREEN_WIDTH - escWidth) / 2, GamePanel.SCREEN_HEIGHT / 2 + 90);
-
+        g2.drawString(escText, (GamePanel.SCREEN_WIDTH - escWidth) / 2, GamePanel.SCREEN_HEIGHT / 2 + 60);
     }
 }
