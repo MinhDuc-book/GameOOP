@@ -25,6 +25,7 @@ public class Main {
 }
 
 // thiếu điểm
+
 // thiếu chức năng sau khi DONE
 // sau khi END cần quay lại menu default để có thể chọn chế độ
 

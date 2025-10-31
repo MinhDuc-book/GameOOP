@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread = new Thread(this);
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
-    public GameState gameState = new GameState();
+    public GameState gameState = new GameState(this);
     public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
     public ArrayList<BrickItem> items = new ArrayList<>();
@@ -307,13 +307,13 @@ public class GamePanel extends JPanel implements Runnable {
             DoneState.draw(g2);
         }
 
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 20));
-        g2.drawString("Score: " + score, 20, 30);
-
+        if (gameState.getCurrentState() == GameState.State.PLAY) {
+            gameState.draw(g2);
+//            g2.setColor(Color.WHITE);
+//            g2.setFont(new Font("Arial", Font.BOLD, 20));
+//            g2.drawString("Score: " + score, 20, 30);
+        }
         g2.dispose();
-
-
 
     }
 }
