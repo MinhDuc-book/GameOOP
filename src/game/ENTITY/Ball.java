@@ -16,16 +16,15 @@ public class Ball extends MovableObject {
     GamePanel gp;
     Player player;
     Brick bricks;
-    GameState gameState;
     Sound breakingSound = new Sound();
     Sound metalSound = new Sound();
+    GameState gameState = new GameState(gp);
 
     public int diameter = 20;
     public int speedX, speedY;
     private static BufferedImage image;
     public boolean isActive = false;
     public boolean isRemoved = false;
-
 
     static {
         try {
@@ -111,10 +110,8 @@ public class Ball extends MovableObject {
                     Rectangle brickRect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
 
                     if (ballRect.intersects(brickRect)) {
-
                         double ballCenterX = x + diameter / 2.0;
                         double ballCenterY = y + diameter / 2.0;
-
                         double brickCenterX = brickX + brickWidth / 2.0;
                         double brickCenterY = brickY + brickHeight / 2.0;
 
