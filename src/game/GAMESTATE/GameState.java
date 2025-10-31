@@ -1,4 +1,4 @@
-    package game.GAMESTATE;
+package game.GAMESTATE;
 
     import game.MAIN.GamePanel;
 
