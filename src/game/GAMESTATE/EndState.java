@@ -4,7 +4,6 @@ import game.BACKGROUND.MenuButton;
 import game.MAIN.GamePanel;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class EndState {
     private GamePanel gp;
@@ -22,16 +21,11 @@ public class EndState {
         String pauseText = "GAME OVER";
         int textWidth = g2.getFontMetrics().stringWidth(pauseText);
         g2.drawString(pauseText, (GamePanel.SCREEN_WIDTH - textWidth) / 2, GamePanel.SCREEN_HEIGHT / 2);
-        MenuButton.getExitButton().draw(g2);
-    }
 
-    public void mousePressed(MouseEvent e) {
-            int mouseX = e.getX();
-            int mouseY = e.getY();
-
-            if (MenuButton.getReplayButton().intoBound(mouseX, mouseY)) {
-                System.out.println("Replay clicked");
-                gp.gameState.setCurrentState(GameState.State.END);
-            }
+        // thêm hướng dẫn nhấn ESC để chơi lại
+        String escText = "Press ESC to play again";
+        g2.setFont(new Font("Arial", Font.PLAIN, 20));
+        int escWidth = g2.getFontMetrics().stringWidth(escText);
+        g2.drawString(escText, (GamePanel.SCREEN_WIDTH - escWidth) / 2, GamePanel.SCREEN_HEIGHT / 2 + 60);
     }
 }

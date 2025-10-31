@@ -35,7 +35,6 @@ public class GameState {
                 break;
             case END:
                 EndState endState = new EndState(gp);
-                endState.mousePressed(e);
                 break;
             case PAUSE:
                 PauseState pauseState = new PauseState(gp);

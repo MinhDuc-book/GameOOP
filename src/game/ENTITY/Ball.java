@@ -5,9 +5,12 @@ import game.MAIN.GamePanel;
 import game.OBJECT.BrickItem;
 import game.SOUND.Sound;
 
+import game.OBJECT.BrickItem;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Ball extends MovableObject {
     GamePanel gp;
@@ -23,6 +26,7 @@ public class Ball extends MovableObject {
     public boolean isActive = false;
     public boolean isRemoved = false;
 
+
     static {
         try {
             image = ImageIO.read(Ball.class.getResourceAsStream("/asset/ball/normalBall.png"));
@@ -30,6 +34,7 @@ public class Ball extends MovableObject {
             throw new RuntimeException(e);
         }
     }
+
     public Ball(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
@@ -53,10 +58,12 @@ public class Ball extends MovableObject {
             x += speedX;
             y += speedY;
 
+            // Nảy tường trái/phải
             if (x <= 0 || x + diameter >= gp.SCREEN_WIDTH) {
                 speedX = -speedX;
             }
 
+            // Nảy trần
             if (y <= 0) {
                 speedY = -speedY;
             }
@@ -77,8 +84,6 @@ public class Ball extends MovableObject {
     private void checkCollisionWithPlayer() {
         Rectangle ballRect = new Rectangle(x, y, diameter, diameter);
         Rectangle playerRect = new Rectangle(player.x, player.y, player.w, player.h);
-        breakingSound.setSound("/asset/sound/breakingsound.wav");
-        metalSound.setSound("/asset/sound/metal sound.wav");
 
         if (ballRect.intersects(playerRect)) {
             y = player.y - diameter;
