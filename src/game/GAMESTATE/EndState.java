@@ -1,6 +1,7 @@
 package game.GAMESTATE;
 
 import game.MAIN.GamePanel;
+import game.SOUND.Sound;
 
 import java.awt.*;
 
@@ -9,6 +10,7 @@ public class EndState {
 
     public EndState(GamePanel gp) {
         this.gp = gp;
+
     }
 
     public static void draw(Graphics2D g2) {

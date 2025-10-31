@@ -17,10 +17,12 @@ import game.OBJECT.BrickItem;
 import game.OBJECT.EnhancedObject;
 import game.OBJECT.LifeCount;
 import game.HIGHSCORE.HighscoreManager;
+import game.SOUND.Sound;
 
 
 public class GamePanel extends JPanel implements Runnable {
     private JFrame window;
+    Sound endingSound = new  Sound();
 
     public GamePanel(JFrame window, int level) {
         this.window = window;
@@ -315,6 +317,7 @@ public class GamePanel extends JPanel implements Runnable {
             PauseState.draw(g2);
         } else if (gameState.getCurrentState() == GameState.State.END) {
             EndState.draw(g2);
+
         } else if (gameState.getCurrentState() == GameState.State.DONE) {
             DoneState.draw(g2);
         }
