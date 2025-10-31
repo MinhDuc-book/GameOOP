@@ -4,51 +4,69 @@ import javax.sound.sampled.*;
 import java.io.InputStream;
 
 public class Sound {
-    private Clip clip; // phat lai.
-    private String fileName; // file am thanh.
+    private Clip clip;
+    private String fileName;
+
+    private static float globalVolume = 1.0f; // 0 = mute , 1 = max
 
     public void setSound(String fileName) {
         try {
             this.fileName = fileName;
-            if (fileName == null) throw new IllegalArgumentException("sound can not be null.");
             InputStream is = Sound.class.getResourceAsStream(fileName);
-            if (is == null) {
-                throw new IllegalArgumentException("Not exist source.");
-            }
+            if (is == null) throw new IllegalArgumentException("File không tồn tại: " + fileName);
+
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(is);
             this.clip = AudioSystem.getClip();
             this.clip.open(audioInputStream);
 
+            applyVolume();
         } catch (Exception e) {
-            throw new RuntimeException("error when start sound.");
+            throw new RuntimeException("Lỗi load âm thanh: " + e.getMessage());
         }
     }
 
-    public void stop() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
-            clip.setFramePosition(0);
-        }
+    public static void setGlobalVolume(float value) {
+        if (value < 0f) value = 0f;
+        if (value > 1f) value = 1f;
+        globalVolume = value;
     }
 
-    public void loop() {
-        if (this.clip != null) {
-            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+    public static float getGlobalVolume() {
+        return globalVolume;
+    }
+
+    public void applyVolume() {
+        if (clip != null) {
+            try {
+                FloatControl gainControl = (FloatControl)
+                        clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+                float dB = (float)(20 * Math.log10(globalVolume == 0 ? 0.0001 : globalVolume));
+                gainControl.setValue(dB);
+            } catch (Exception ignored) {}
         }
     }
 
     public void playSound() {
-        if (this.clip != null) {
-            this.clip.start();
-        }
-    }
-
-    public void setVolume(float value) {
         if (clip != null) {
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            float dB = (float) (20 * Math.log10(value == 0 ? 0.001 : value));
-            gainControl.setValue(dB);
+            clip.stop();
+            clip.setFramePosition(0);
+            applyVolume();
+            clip.start();
         }
     }
 
+    public void loop() {
+        if (clip != null) {
+            applyVolume();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+    }
+
+    public void stop() {
+        if (clip != null) {
+            clip.stop();
+            clip.setFramePosition(0);
+        }
+    }
 }

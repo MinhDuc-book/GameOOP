@@ -18,7 +18,7 @@ public class DefaultBackground extends JPanel implements MouseListener {
     private Sound sound = new Sound();
     private boolean showVolume = false;
     private JSlider volumeSlider;
-    private int currentVolume = 50; // % volume
+    private static int currentVolume = 50; // % volume
 
 
 
@@ -52,7 +52,8 @@ public class DefaultBackground extends JPanel implements MouseListener {
         volumeSlider.addChangeListener(e -> {
             currentVolume = volumeSlider.getValue();
             float vol = currentVolume / 100f;
-            sound.setVolume(vol);
+            Sound.setGlobalVolume(vol);   // cập nhật volume chung
+            sound.applyVolume();
         });
         this.setLayout(null);
         this.add(volumeSlider);
