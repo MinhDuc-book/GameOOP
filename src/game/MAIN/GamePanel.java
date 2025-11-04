@@ -154,8 +154,8 @@ public class GamePanel extends JPanel implements Runnable {
         DefaultBackground defaultBackground = new DefaultBackground("asset/background/giaodien.png", window);
 
         // Set lại content pane về menu
-        window.setContentPane(defaultBackground);
-        window.revalidate();
+        window.setContentPane(defaultBackground); // thay đổi nd của cửa sổ
+        window.revalidate(); // //tbao giao diện đã thay đổi
         window.repaint();
 
         System.out.println("Quay lại menu");
