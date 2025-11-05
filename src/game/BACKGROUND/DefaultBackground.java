@@ -170,12 +170,14 @@ public class DefaultBackground extends JPanel implements MouseListener {
             if (instructionBtn.intoBound(mouseX, mouseY)) {
                 showInstructions = !showInstructions; // đảo trạng thái
                 showLevel = false;
+                showVolume = false;
                 repaint();
             }
         }
         else if (levelBtn.intoBound(mouseX, mouseY)) {
             showLevel = !showLevel;
             showInstructions = false;
+            showVolume = false;
             repaint();
         }
         else if (startBtn.intoBound(mouseX, mouseY)) {
