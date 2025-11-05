@@ -62,7 +62,6 @@ public class GamePanel extends JPanel implements Runnable {
     Player player = new Player(this, keyH);
     public ArrayList<Ball> balls = new ArrayList<>();
     public GameState gameState = new GameState(this);
-    public AssetSetter aSetter = new AssetSetter(this);
     LifeCount lifeCount = new LifeCount(this, player);
     public ArrayList<BrickItem> items = new ArrayList<>();
 
@@ -84,8 +83,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         Ball initBall = new Ball(this, player);
         balls.add(initBall);
-
-        aSetter.setObject();
 
         String mapName = "map" + level;
         brick.setBrickMap(BrickMapLoader.loadMap(mapName));
